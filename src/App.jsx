@@ -8,20 +8,17 @@ import Approved from "./Approved";
 import Mistake from "./Mistake";
 import Resubmit from "./Resubmit";
 import Loader from "./Loader";
-import { useEffect } from "react";
 
 const App = () => {
   const [isLoad, setLoad] = useState(true)
-
-  useEffect(() => {
-    document.body.classList.toggle('fixBody')
-  }, [])
-
+  
   document.addEventListener('readystatechange', () => {
+    document.body.classList.add('fixBody')
+
     if(document.readyState === 'complete') {
       setTimeout(() => {
         setLoad(false)
-        document.body.classList.toggle('fixBody')
+        document.body.classList.remove('fixBody')
       }, 800)
     }
   }) 
