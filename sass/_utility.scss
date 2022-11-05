@@ -1,0 +1,58 @@
+@mixin bg-box {
+    background-color: rgba(30, 27, 27, 0.01);
+    box-shadow: inset 0px 0px 60px rgba(255, 255, 255, 0.25);
+    border: 4px solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(to bottom right,#209CF6, #FFFFFF75, #FC8412);
+    border-radius: 3px;
+    -webkit-mask: /*4*/
+     linear-gradient(#fff 0 0) padding-box, 
+     linear-gradient(#fff 0 0);
+}
+
+@mixin btn {
+    border: none;
+    outline: none;
+    background-image: linear-gradient(90.6deg, #209CF6 -8.98%, #FC8412 114.52%);
+    padding: 2rem;
+    font-family: $font-primary;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: $color-font-primary;
+    border-radius: 10px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+@mixin titleStroke {
+    &__title-box {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-auto-rows: min-content;
+        text-align: center;
+    }
+
+    &__title,
+    &__title-stroke {
+        grid-column: 1/2;
+        grid-row: 1/2;
+        font-size: 3.6rem;
+        font-weight: 700;
+        color: $color-font-primary;
+
+        @media only screen and (max-width: $bp-mobile) {
+            font-size: 2.6rem
+        }
+    }
+
+    &__title-stroke {
+        -webkit-text-fill-color: transparent;
+        -webkit-text-stroke: .5px;
+        transform: translate(5px, 3px);
+        opacity: .5;
+
+        @media only screen and (max-width: $bp-mobile) {
+            transform: translate(2px, 2px);
+        }
+    }
+}

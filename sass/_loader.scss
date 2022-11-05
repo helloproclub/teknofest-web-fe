@@ -1,0 +1,21 @@
+.loader {
+    position: fixed;
+    inset: 0 0 0 0;
+    background-color: $color-bg-component;
+    opacity: 0;
+    visibility: hidden;
+    display: grid;
+    place-items: center;
+    z-index: 10;
+    transition: .4s ease;
+
+    &__logo {
+        width: 18rem;
+        height: 18rem;
+    }
+}
+
+.loader.onLoad {
+    opacity: 1;
+    visibility: visible;
+}
