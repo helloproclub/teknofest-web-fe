@@ -8,6 +8,7 @@ import Approved from "./Approved";
 import Mistake from "./Mistake";
 import Resubmit from "./Resubmit";
 import Loader from "./Loader";
+import ResetPass from "./ResetPass";
 import ForgotPass from "./ForgotPass";
 
 const App = () => {
@@ -35,6 +36,7 @@ const App = () => {
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
           <Route path="resubmit" element={<Resubmit />} />
+          <Route path="reset-password" element={<ResetPass />} />
           <Route path="forgot-password" element={<ForgotPass />} />
           <Route path="status" >
             <Route path="onprogress" element={<OnProgress />} />

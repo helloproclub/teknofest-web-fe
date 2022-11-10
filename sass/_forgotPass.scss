@@ -1,27 +1,24 @@
 .forgot {
     width: 50%;
+    align-self: center;
+
+    @media only screen and (max-width: $bp-mobile) {
+        width: 100%
+    }
 
     &__form {
-        grid-gap: 2rem;
+        @media only screen and (max-width: $bp-mobile) {
+            grid-gap: 3rem;
+        }
     }
 
     &__btn {
         margin: 0;
     }
 
-    &__alert {
-        font-size: 1.6rem;
-        font-weight: 500;
-        color: #FF0000;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateX(-1rem);
-        transition: .2s ease;
+    &__message {
+        font-size: 2rem;
+        color: #00FF19;
+        text-align: center;
     }
-}
-
-.forgot__alert.alerted {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(0);
 }

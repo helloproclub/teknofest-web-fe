@@ -114,6 +114,7 @@ body {
 .register,
 .login,
 .resubmit,
+.reset,
 .forgot {
   background-color: rgba(30, 27, 27, 0.01);
   box-shadow: inset 0px 0px 60px rgba(255, 255, 255, 0.25);
@@ -126,12 +127,13 @@ body {
   grid-template-columns: 1fr;
   grid-auto-rows: min-content;
   grid-gap: 3rem;
-  padding: 3rem 4rem 8rem;
+  padding: 3rem 4rem 6rem;
   width: 80%;
   justify-self: center; }
   .register__title-box,
   .login__title-box,
   .resubmit__title-box,
+  .reset__title-box,
   .forgot__title-box {
     display: grid;
     grid-template-columns: 1fr;
@@ -142,6 +144,8 @@ body {
   .login__title-stroke,
   .resubmit__title,
   .resubmit__title-stroke,
+  .reset__title,
+  .reset__title-stroke,
   .forgot__title,
   .forgot__title-stroke {
     grid-column: 1/2;
@@ -155,12 +159,15 @@ body {
       .login__title-stroke,
       .resubmit__title,
       .resubmit__title-stroke,
+      .reset__title,
+      .reset__title-stroke,
       .forgot__title,
       .forgot__title-stroke {
         font-size: 2.6rem; } }
   .register__title-stroke,
   .login__title-stroke,
   .resubmit__title-stroke,
+  .reset__title-stroke,
   .forgot__title-stroke {
     -webkit-text-fill-color: transparent;
     -webkit-text-stroke: .5px;
@@ -170,18 +177,21 @@ body {
       .register__title-stroke,
       .login__title-stroke,
       .resubmit__title-stroke,
+      .reset__title-stroke,
       .forgot__title-stroke {
         transform: translate(2px, 2px); } }
   @media only screen and (max-width: 28em) {
     .register,
     .login,
     .resubmit,
+    .reset,
     .forgot {
       padding: 2rem 3rem;
       width: 100%; } }
   .register__form,
   .login__form,
   .resubmit__form,
+  .reset__form,
   .forgot__form {
     display: grid;
     grid-auto-rows: min-content;
@@ -192,6 +202,8 @@ body {
   .login__form .right,
   .resubmit__form .left,
   .resubmit__form .right,
+  .reset__form .left,
+  .reset__form .right,
   .forgot__form .left,
   .forgot__form .right {
     display: grid;
@@ -201,6 +213,7 @@ body {
   .register__input-container,
   .login__input-container,
   .resubmit__input-container,
+  .reset__input-container,
   .forgot__input-container {
     display: grid;
     grid-template-columns: min-content 1fr;
@@ -213,12 +226,14 @@ body {
   .register__input-container--link,
   .login__input-container--link,
   .resubmit__input-container--link,
+  .reset__input-container--link,
   .forgot__input-container--link {
     grid-template-columns: min-content 1fr min-content;
     padding-right: 1rem; }
   .register__input,
   .login__input,
   .resubmit__input,
+  .reset__input,
   .forgot__input {
     border: none;
     outline: none;
@@ -232,6 +247,7 @@ body {
     .register__input::placeholder,
     .login__input::placeholder,
     .resubmit__input::placeholder,
+    .reset__input::placeholder,
     .forgot__input::placeholder {
       font-family: "Work Sans", sans-serif;
       font-size: 1.6rem;
@@ -240,6 +256,7 @@ body {
   .register__icon,
   .login__icon,
   .resubmit__icon,
+  .reset__icon,
   .forgot__icon {
     padding: 1rem;
     background-color: #3F424A;
@@ -247,6 +264,7 @@ body {
     .register__icon img,
     .login__icon img,
     .resubmit__icon img,
+    .reset__icon img,
     .forgot__icon img {
       width: 2.4rem;
       height: 2.4rem;
@@ -254,6 +272,7 @@ body {
   .register .input__group,
   .login .input__group,
   .resubmit .input__group,
+  .reset .input__group,
   .forgot .input__group {
     display: flex;
     flex-direction: column;
@@ -261,6 +280,7 @@ body {
   .register .input__group label,
   .login .input__group label,
   .resubmit .input__group label,
+  .reset .input__group label,
   .forgot .input__group label {
     text-transform: uppercase;
     font-size: 1.4rem;
@@ -269,6 +289,7 @@ body {
   .register__btn,
   .login__btn,
   .resubmit__btn,
+  .reset__btn,
   .forgot__btn {
     border: none;
     outline: none;
@@ -287,17 +308,20 @@ body {
     .register__btn:active,
     .login__btn:active,
     .resubmit__btn:active,
+    .reset__btn:active,
     .forgot__btn:active {
       transform: scale(0.96); }
     @media only screen and (max-width: 28em) {
       .register__btn:active,
       .login__btn:active,
       .resubmit__btn:active,
+      .reset__btn:active,
       .forgot__btn:active {
         transform: scale(0.98); } }
   .register__redirect,
   .login__redirect,
   .resubmit__redirect,
+  .reset__redirect,
   .forgot__redirect {
     text-align: center;
     font-size: 1.6rem; }
@@ -307,6 +331,8 @@ body {
     .login__redirect a:visited,
     .resubmit__redirect a,
     .resubmit__redirect a:visited,
+    .reset__redirect a,
+    .reset__redirect a:visited,
     .forgot__redirect a,
     .forgot__redirect a:visited {
       text-decoration: none;
@@ -319,6 +345,8 @@ body {
       .login__redirect a:visited:hover,
       .resubmit__redirect a:hover,
       .resubmit__redirect a:visited:hover,
+      .reset__redirect a:hover,
+      .reset__redirect a:visited:hover,
       .forgot__redirect a:hover,
       .forgot__redirect a:visited:hover {
         text-decoration: underline; }
@@ -374,12 +402,14 @@ body {
   .login__redirect a:visited {
     color: #FFA842; }
 
-.register__form {
-  grid-template-columns: repeat(2, 1fr); }
-  @media only screen and (max-width: 28em) {
-    .register__form {
-      grid-template-columns: 1fr;
-      grid-gap: 3rem; } }
+.register {
+  padding: 3rem 4rem 8rem; }
+  .register__form {
+    grid-template-columns: repeat(2, 1fr); }
+    @media only screen and (max-width: 28em) {
+      .register__form {
+        grid-template-columns: 1fr;
+        grid-gap: 3rem; } }
 
 .resubmit__form {
   grid-template-columns: repeat(2, 1fr); }
@@ -391,13 +421,17 @@ body {
 .resubmit__btn {
   margin: 0; }
 
-.forgot {
-  width: 50%; }
-  .forgot__form {
+.reset {
+  width: 50%;
+  align-self: center; }
+  @media only screen and (max-width: 28em) {
+    .reset {
+      width: 100%; } }
+  .reset__form {
     grid-gap: 2rem; }
-  .forgot__btn {
+  .reset__btn {
     margin: 0; }
-  .forgot__alert {
+  .reset__alert {
     font-size: 1.6rem;
     font-weight: 500;
     color: #FF0000;
@@ -405,11 +439,30 @@ body {
     visibility: hidden;
     transform: translateX(-1rem);
     transition: .2s ease; }
+    @media only screen and (max-width: 28em) {
+      .reset__alert {
+        font-size: 1.4rem; } }
 
-.forgot__alert.alerted {
+.reset__alert.alerted {
   opacity: 1;
   visibility: visible;
   transform: translateX(0); }
+
+.forgot {
+  width: 50%;
+  align-self: center; }
+  @media only screen and (max-width: 28em) {
+    .forgot {
+      width: 100%; } }
+  @media only screen and (max-width: 28em) {
+    .forgot__form {
+      grid-gap: 3rem; } }
+  .forgot__btn {
+    margin: 0; }
+  .forgot__message {
+    font-size: 2rem;
+    color: #00FF19;
+    text-align: center; }
 
 .progress {
   display: grid;
