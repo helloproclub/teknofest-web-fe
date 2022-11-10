@@ -22,6 +22,11 @@
     border-radius: 10px;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
+    transition: .01s ease;
+
+    &:active {
+        transform: scale(.96);
+    }
 }
 
 @mixin titleStroke {

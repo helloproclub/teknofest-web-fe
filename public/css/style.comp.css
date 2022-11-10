@@ -113,7 +113,8 @@ body {
 
 .register,
 .login,
-.resubmit {
+.resubmit,
+.forgot {
   background-color: rgba(30, 27, 27, 0.01);
   box-shadow: inset 0px 0px 60px rgba(255, 255, 255, 0.25);
   border: 4px solid;
@@ -130,7 +131,8 @@ body {
   justify-self: center; }
   .register__title-box,
   .login__title-box,
-  .resubmit__title-box {
+  .resubmit__title-box,
+  .forgot__title-box {
     display: grid;
     grid-template-columns: 1fr;
     grid-auto-rows: min-content;
@@ -139,7 +141,9 @@ body {
   .login__title,
   .login__title-stroke,
   .resubmit__title,
-  .resubmit__title-stroke {
+  .resubmit__title-stroke,
+  .forgot__title,
+  .forgot__title-stroke {
     grid-column: 1/2;
     grid-row: 1/2;
     font-size: 3.6rem;
@@ -150,11 +154,14 @@ body {
       .login__title,
       .login__title-stroke,
       .resubmit__title,
-      .resubmit__title-stroke {
+      .resubmit__title-stroke,
+      .forgot__title,
+      .forgot__title-stroke {
         font-size: 2.6rem; } }
   .register__title-stroke,
   .login__title-stroke,
-  .resubmit__title-stroke {
+  .resubmit__title-stroke,
+  .forgot__title-stroke {
     -webkit-text-fill-color: transparent;
     -webkit-text-stroke: .5px;
     transform: translate(5px, 3px);
@@ -162,17 +169,20 @@ body {
     @media only screen and (max-width: 28em) {
       .register__title-stroke,
       .login__title-stroke,
-      .resubmit__title-stroke {
+      .resubmit__title-stroke,
+      .forgot__title-stroke {
         transform: translate(2px, 2px); } }
   @media only screen and (max-width: 28em) {
     .register,
     .login,
-    .resubmit {
+    .resubmit,
+    .forgot {
       padding: 2rem 3rem;
       width: 100%; } }
   .register__form,
   .login__form,
-  .resubmit__form {
+  .resubmit__form,
+  .forgot__form {
     display: grid;
     grid-auto-rows: min-content;
     grid-gap: 5rem; }
@@ -181,14 +191,17 @@ body {
   .login__form .left,
   .login__form .right,
   .resubmit__form .left,
-  .resubmit__form .right {
+  .resubmit__form .right,
+  .forgot__form .left,
+  .forgot__form .right {
     display: grid;
     grid-template-columns: 1fr;
     grid-auto-rows: min-content;
     grid-gap: 3rem; }
   .register__input-container,
   .login__input-container,
-  .resubmit__input-container {
+  .resubmit__input-container,
+  .forgot__input-container {
     display: grid;
     grid-template-columns: min-content 1fr;
     grid-auto-rows: min-content;
@@ -199,12 +212,14 @@ body {
     border-radius: 8px; }
   .register__input-container--link,
   .login__input-container--link,
-  .resubmit__input-container--link {
+  .resubmit__input-container--link,
+  .forgot__input-container--link {
     grid-template-columns: min-content 1fr min-content;
     padding-right: 1rem; }
   .register__input,
   .login__input,
-  .resubmit__input {
+  .resubmit__input,
+  .forgot__input {
     border: none;
     outline: none;
     background-color: transparent;
@@ -216,39 +231,45 @@ body {
     padding: 1rem 0; }
     .register__input::placeholder,
     .login__input::placeholder,
-    .resubmit__input::placeholder {
+    .resubmit__input::placeholder,
+    .forgot__input::placeholder {
       font-family: "Work Sans", sans-serif;
       font-size: 1.6rem;
       font-weight: 500;
       color: #A5A5A5; }
   .register__icon,
   .login__icon,
-  .resubmit__icon {
+  .resubmit__icon,
+  .forgot__icon {
     padding: 1rem;
     background-color: #3F424A;
     border-radius: 5px; }
     .register__icon img,
     .login__icon img,
-    .resubmit__icon img {
+    .resubmit__icon img,
+    .forgot__icon img {
       width: 2.4rem;
       height: 2.4rem;
       transform: translateY(2px); }
   .register .input__group,
   .login .input__group,
-  .resubmit .input__group {
+  .resubmit .input__group,
+  .forgot .input__group {
     display: flex;
     flex-direction: column;
     gap: 1rem; }
   .register .input__group label,
   .login .input__group label,
-  .resubmit .input__group label {
+  .resubmit .input__group label,
+  .forgot .input__group label {
     text-transform: uppercase;
     font-size: 1.4rem;
     font-weight: 600;
     color: #fff; }
   .register__btn,
   .login__btn,
-  .resubmit__btn {
+  .resubmit__btn,
+  .forgot__btn {
     border: none;
     outline: none;
     background-image: linear-gradient(90.6deg, #209CF6 -8.98%, #FC8412 114.52%);
@@ -260,16 +281,24 @@ body {
     border-radius: 10px;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
+    transition: .01s ease;
     margin-top: 3.2rem;
     transition: .05s ease; }
+    .register__btn:active,
+    .login__btn:active,
+    .resubmit__btn:active,
+    .forgot__btn:active {
+      transform: scale(0.96); }
     @media only screen and (max-width: 28em) {
       .register__btn:active,
       .login__btn:active,
-      .resubmit__btn:active {
+      .resubmit__btn:active,
+      .forgot__btn:active {
         transform: scale(0.98); } }
   .register__redirect,
   .login__redirect,
-  .resubmit__redirect {
+  .resubmit__redirect,
+  .forgot__redirect {
     text-align: center;
     font-size: 1.6rem; }
     .register__redirect a,
@@ -277,7 +306,9 @@ body {
     .login__redirect a,
     .login__redirect a:visited,
     .resubmit__redirect a,
-    .resubmit__redirect a:visited {
+    .resubmit__redirect a:visited,
+    .forgot__redirect a,
+    .forgot__redirect a:visited {
       text-decoration: none;
       color: #0095FF;
       font-weight: 700;
@@ -287,7 +318,9 @@ body {
       .login__redirect a:hover,
       .login__redirect a:visited:hover,
       .resubmit__redirect a:hover,
-      .resubmit__redirect a:visited:hover {
+      .resubmit__redirect a:visited:hover,
+      .forgot__redirect a:hover,
+      .forgot__redirect a:visited:hover {
         text-decoration: underline; }
 
 .select-input .css-1s2u09g-control {
@@ -357,6 +390,26 @@ body {
 
 .resubmit__btn {
   margin: 0; }
+
+.forgot {
+  width: 50%; }
+  .forgot__form {
+    grid-gap: 2rem; }
+  .forgot__btn {
+    margin: 0; }
+  .forgot__alert {
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #FF0000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-1rem);
+    transition: .2s ease; }
+
+.forgot__alert.alerted {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0); }
 
 .progress {
   display: grid;
@@ -500,7 +553,12 @@ body {
   border-radius: 10px;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  transition: .01s ease;
   font-size: 2.6rem; }
+  .acc__btn:active, .acc__btn:visited:active,
+  .mistake__btn:active,
+  .mistake__btn:visited:active {
+    transform: scale(0.96); }
   @media only screen and (max-width: 28em) {
     .acc__btn, .acc__btn:visited,
     .mistake__btn,

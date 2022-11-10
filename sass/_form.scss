@@ -1,6 +1,7 @@
 .register,
 .login,
-.resubmit {
+.resubmit,
+.forgot {
     @include bg-box;
     @include titleStroke;
     display: grid;

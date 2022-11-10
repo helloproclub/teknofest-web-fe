@@ -1,0 +1,27 @@
+.forgot {
+    width: 50%;
+
+    &__form {
+        grid-gap: 2rem;
+    }
+
+    &__btn {
+        margin: 0;
+    }
+
+    &__alert {
+        font-size: 1.6rem;
+        font-weight: 500;
+        color: #FF0000;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateX(-1rem);
+        transition: .2s ease;
+    }
+}
+
+.forgot__alert.alerted {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
