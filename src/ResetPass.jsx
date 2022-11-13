@@ -24,7 +24,7 @@ const ResetPass = () => {
         if(confirmNewPassword !== newPassword) {
             setAlert(true)
         } else {
-            // Do something with user's new password
+            // Do something on user's new password
         }
     }
 
