@@ -2,7 +2,7 @@ import axios from "axios";
 
 import CookiesHelper from "./cookies-helper";
 
-const BASE_URL = 'https://localhost:3000';
+const BASE_URL = 'http://apiteknofest.proclub.tech';
 const token = CookiesHelper.get("teknoFest_accessToken");
 
 const instance = axios.create({
@@ -10,13 +10,13 @@ const instance = axios.create({
 });
 
 // instance.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
-instance.defaults.headers.post["Access-Control-Allow-Methods"] = 
-    "GET, POST, PATCH, PUT, DELETE, OPTIONS";
-instance.defaults.headers.post["Access-Control-Allow-Credentials"] = "true";
-instance.defaults.headers.post["Access-Control-Allow-Headers"] =
-    "Origin, Content-Type, X-Auth-Token, Accept, Authorization, X-Requested-With";
-instance.defaults.headers.post["Access-Control-Max-Age"] = "86400";
-instance.defaults.headers.post["Content-Type"] = "application/json";
+// instance.defaults.headers.post["Access-Control-Allow-Methods"] = 
+//     "GET, POST, PATCH, PUT, DELETE, OPTIONS";
+// instance.defaults.headers.post["Access-Control-Allow-Credentials"] = "true";
+// instance.defaults.headers.post["Access-Control-Allow-Headers"] =
+//     "Origin, Content-Type, X-Auth-Token, Accept, Authorization, X-Requested-With";
+// instance.defaults.headers.post["Access-Control-Max-Age"] = "86400";
+// instance.defaults.headers.post["Content-Type"] = "application/json";
 
 if (token) {
   instance.defaults.headers.common["Authorization"] = `Bearer ${token}`;

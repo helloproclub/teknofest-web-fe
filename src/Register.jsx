@@ -1,4 +1,9 @@
 import React, {useState} from "react";
+import { useNavigate } from 'react-router-dom';
+
+import { User } from "./services/api/user";
+import { toast } from "react-toastify";
+
 import mail from './asset/sms.svg';
 import key from './asset/key.svg';
 import frame from './asset/frame.svg';
@@ -13,6 +18,7 @@ import Select from 'react-select';
 import dataDivison from "./division";
 
 const Register = () => {
+    const navigate = useNavigate()
     const [division, setDivision] = useState('')
     const [regisValue, setRegisValue] = useState({email: '', password: '', fullname: '', nim: '', ktm: '', cv: '', coverLetter: '', linkedin: ''})
     const {email, password, fullname, nim, ktm, cv, coverLetter, linkedin} = regisValue
@@ -30,8 +36,18 @@ const Register = () => {
         setDivision(selectedState.value)
     }
 
-    const handleSubmit = e => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
+
+        try {
+            const { data } = await User.post(regisValue);
+
+            toast.success(`Successfully Registered`);
+            navigate('/login');
+            toast.info(`Please use your credential to login`);
+        } catch (e) {
+            toast.error(`Error, ${e.response ? e.response.data && e.response.data.msg : "Something's not right"}`);
+        }
     }
 
 

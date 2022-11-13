@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
+
+import { Auth } from './services/api/auth';
+
 import mail from './asset/sms.svg';
 import key from './asset/key.svg';
-import { useState } from "react";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+    const navigate = useNavigate()
     const [loginValue, setLoginValue] = useState({email: '', password: ''})
     const {email, password} = loginValue
 
@@ -16,8 +21,17 @@ const Login = () => {
         })
     }
 
-    const handleSubmit = e => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
+
+        try {
+            const { data } = await Auth.login(loginValue);
+            console.log(data);
+            
+            navigate('/status');
+        } catch (e) {
+            toast.error(`Error, ${e.response ? e.response.data && e.response.data.msg : "Something's not right"}`);
+        }
     }
 
     return (
