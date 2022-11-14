@@ -1,6 +1,8 @@
 import React from "react";
 import mail from './asset/sms.svg';
 import { useState } from "react";
+import Auth from "./services/api/auth";
+import { toast } from "react-toastify";
 
 const ForgotPass = () => {
     const [forgotValue, setForgotValue] = useState({email: ''})
@@ -15,8 +17,16 @@ const ForgotPass = () => {
         })
     }
 
-    const handleSubmit = e => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
+
+        try {
+            const { data } = await Auth.forgotPassword({ email });
+            
+            toast.success(`We have sent your recovery link to your email, please check your email`);
+        } catch (e) {
+            toast.error(`Error, ${e.response ? e.response.data && e.response.data.msg : "Something's not right"}`);
+        }
     }
 
     return (

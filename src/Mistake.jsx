@@ -1,7 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import CookiesHelper from "./helpers/cookies-helper";
 import Status from "./Status";
 
 const Mistake = () => {
+    const navigate = useNavigate()
+    const user = CookiesHelper.get('user') && JSON.parse(CookiesHelper.get('user'));
+
+    useEffect(() => {
+        if (user) {
+            if (user.status.status !== 1) {
+                navigate('/status');
+            }
+        } else {
+            toast.error('Unauthorized, please login');
+            navigate('/login');
+        }
+    }, []);
+    
     return (
         <Status>
             <div className="mistake">
@@ -10,10 +27,10 @@ const Mistake = () => {
                     <p className="mistake__desc">Let's not be discouraged.</p>
                     <p className="mistake__desc" >Apparently, there are some issue with your sumission:</p>
                     <p className="mistake__desc mistake__desc-box">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                        { user.status.message }
                     </p>
                     <p className="mistake__desc">But, No hope is lost yet, <br /> Be brave and overcame your mistake...</p>
-                    <a href="" className="mistake__btn">Fix Your Submission</a>
+                    <a href="/resubmit" className="mistake__btn">Fix Your Submission</a>
                 </div>
             </div>
         </Status>
