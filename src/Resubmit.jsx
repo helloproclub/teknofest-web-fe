@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import frame from './asset/frame.svg';
 import briefcase from './asset/briefcase.svg';
 import clipboard from './asset/clipboard.svg';
@@ -10,12 +10,18 @@ import note from './asset/note.svg';
 import Select from 'react-select';
 import dataDivison from "./division";
 import { act } from "react-dom/test-utils";
+import CookiesHelper from "./helpers/cookies-helper";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import User from "./services/api/user";
 
 const Resubmit = () => {
+    const navigate = useNavigate()
+    const user = CookiesHelper.get('user') && JSON.parse(CookiesHelper.get('user'))
     const [division, setDivision] = useState('')
     // let defaultDivision = {label: '', value: ''} to store the default value division from fetching API user
-    const [resubmitValue, setResubmitValue] = useState({fullname: '', nim: '', ktm: '', cv: '', coverLetter: '', linkedin: ''})
-    const {fullname, nim, ktm, cv, coverLetter, linkedin} = resubmitValue
+    const [resubmitValue, setResubmitValue] = useState({fullName: '', nim: '', photo_KTM_url: '', cv_url: '', cover_letter_url: '', linkedIn_url: ''})
+    const {fullName, nim, photo_KTM_url, cv_url, cover_letter_url, linkedIn_url} = resubmitValue
 
     // dataDivison.forEach(item => {
     //     if(item.value === division) {
@@ -32,14 +38,44 @@ const Resubmit = () => {
         })
     }
 
-    const handleSubmit = e => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
+
+        try {
+            const { data } = await User.put({ ...resubmitValue, division });
+
+            toast.success(`Successfully resubmit`);
+            navigate('/status');
+        } catch (e) {
+            toast.error(`Error, ${e.response ? e.response.data && e.response.data.msg : "Something's not right"}`);
+        }
     }
 
     const handleDivision = (selectedState, action) => {
         setDivision(selectedState.value)
-        console.log(action);
     }
+
+    useEffect(() => {
+        if (user) {
+            if (user.status.status !== 1) {
+                toast.error('Unauthorized');
+                navigate('/status');
+            } else {
+                setResubmitValue({
+                    fullName: user.fullName,
+                    nim: user.nim,
+                    photo_KTM_url: user.photo_KTM_url,
+                    cover_letter_url: user.cover_letter_url,
+                    cv_url: user.cv_url,
+                    linkedIn_url: user.linkedIn_url
+                });
+                setDivision(user.division);
+            }
+        } else {
+            toast.error('Unauthorized, please login');
+            navigate('/login');
+        }
+    }, []);
 
     return (
         <div className="resubmit">
@@ -55,7 +91,7 @@ const Resubmit = () => {
                             <div className="resubmit__icon">
                                 <img src={frame} alt="" />
                             </div>
-                            <input className='resubmit__input' type="fullname" name="fullname" value={fullname} onChange={handleResubmitChange} placeholder="Enter your fullname.." required />
+                            <input className='resubmit__input' type="fullname" name="fullname" value={fullName} onChange={handleResubmitChange} placeholder="Enter your fullname.." required />
                         </div>
                     </div>
                     <div className="input__group">
@@ -92,7 +128,7 @@ const Resubmit = () => {
                             <div className="resubmit__icon">
                                 <img src={gallery} alt="" />
                             </div>
-                            <input className='resubmit__input' type="text" name="ktm" value={ktm} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
+                            <input className='resubmit__input' type="text" name="ktm" value={photo_KTM_url} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
                             <img src={link} alt="" />
                         </div>
                     </div>
@@ -102,7 +138,7 @@ const Resubmit = () => {
                             <div className="resubmit__icon">
                                 <img src={note} alt="" />
                             </div>
-                            <input className='resubmit__input' type="text" name="cv" value={cv} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
+                            <input className='resubmit__input' type="text" name="cv" value={cv_url} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
                             <img src={link} alt="" />
                         </div>
                     </div>
@@ -112,7 +148,7 @@ const Resubmit = () => {
                             <div className="resubmit__icon">
                                 <img src={documentText} alt="" />
                             </div>
-                            <input className='resubmit__input' type="text" name="coverLetter" value={coverLetter} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
+                            <input className='resubmit__input' type="text" name="coverLetter" value={cover_letter_url} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
                             <img src={link} alt="" />
                         </div>
                     </div>
@@ -122,7 +158,7 @@ const Resubmit = () => {
                             <div className="resubmit__icon">
                                 <img src={linkedinIcon} alt="" />
                             </div>
-                            <input className='resubmit__input' type="text" name="linkedin" value={linkedin} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
+                            <input className='resubmit__input' type="text" name="linkedin" value={linkedIn_url} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
                             <img src={link} alt="" />
                         </div>
                     </div>

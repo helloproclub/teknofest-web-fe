@@ -2,12 +2,27 @@ import React from "react";
 import logo from './asset/ProclubLogo.svg';
 import navIcon from './asset/unduh.svg';
 import logoutIcon from './asset/logout.svg';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Auth } from './services/api/auth';
+import { toast } from "react-toastify";
+import CookiesHelper from "./helpers/cookies-helper";
 
 const Navbar = () => {
+    const navigate = useNavigate()
     const location = useLocation()
 
     const checkURL = () => location.pathname.includes('acc') || location.pathname.includes('mistakes')
+
+    const logout = async () => {
+        try {
+            const { data } = await Auth.logout();
+            CookiesHelper.remove('user');
+            toast.success('Logged out')
+            navigate('/')
+        } catch(e) {
+            toast.error(`Error, ${e.response ? e.response.data && e.response.data.msg : "Something's not right"}`);
+        }
+    }
 
     return (
         <nav className={`navbar ${checkURL() && 'navbar__logout'}`}>
@@ -17,7 +32,7 @@ const Navbar = () => {
                 Download Guide Book
             </a>
             {checkURL() && 
-            <button type="button" className="logout__btn">
+            <button type="button" className="logout__btn" onClick={logout}>
                 <img src={logoutIcon} alt="" />
                 Logout Account
             </button>}

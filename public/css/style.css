@@ -406,6 +406,13 @@ body {
   .login__redirect a,
   .login__redirect a:visited {
     color: #FFA842; }
+  .login__forgot-password {
+    text-align: right; }
+    .login__forgot-password a,
+    .login__forgot-password a:visited {
+      font-size: 1.6rem;
+      color: #fff;
+      text-decoration: none; }
 
 .register {
   padding: 3rem 4rem 8rem; }

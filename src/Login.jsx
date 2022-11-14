@@ -6,9 +6,12 @@ import mail from './asset/sms.svg';
 import key from './asset/key.svg';
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import CookiesHelper from "./helpers/cookies-helper";
 
 const Login = () => {
     const navigate = useNavigate()
+    const user = CookiesHelper.get('user') && JSON.parse(CookiesHelper.get('user'))
     const [loginValue, setLoginValue] = useState({email: '', password: ''})
     const {email, password} = loginValue
 
@@ -25,14 +28,20 @@ const Login = () => {
         e.preventDefault()
 
         try {
-            const { data } = await Auth.login(loginValue);
-            console.log(data);
+            await Auth.login(loginValue);
             
+            toast.success(`Logged in`);
             navigate('/status');
         } catch (e) {
             toast.error(`Error, ${e.response ? e.response.data && e.response.data.msg : "Something's not right"}`);
         }
     }
+
+    useEffect(() => {
+        if (user) {
+            navigate('/status');
+        }
+    }, []);
 
     return (
         <div className="login">
@@ -59,6 +68,9 @@ const Login = () => {
                         <input className='login__input' onChange={handleLoginChange} type="password" id="password" name="password" value={password} placeholder="Enter your password.." required />
                     </div>
                 </div>
+                <p className="login__forgot-password">
+                    <a href="/forgot-password">Forgot Password?</a>
+                </p>
                 <button type="submit" className="login__btn">Login to Spaceship</button>
                 <p className="login__redirect">
                     Don't have any account? <a href="/register">Register</a> now!

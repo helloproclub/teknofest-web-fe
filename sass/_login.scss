@@ -17,4 +17,15 @@
             color: #FFA842;
         }
     }
+
+    &__forgot-password {
+        text-align: right;
+        
+        a,
+        a:visited {
+            font-size: 1.6rem;
+            color: #fff;
+            text-decoration: none;
+        }
+    }
 }

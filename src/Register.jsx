@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { useNavigate } from 'react-router-dom';
 
 import { User } from "./services/api/user";
@@ -16,12 +16,14 @@ import link from './asset/link.svg';
 import note from './asset/note.svg';
 import Select from 'react-select';
 import dataDivison from "./division";
+import CookiesHelper from "./helpers/cookies-helper";
 
 const Register = () => {
     const navigate = useNavigate()
+    const user = CookiesHelper.get('user') && JSON.parse(CookiesHelper.get('user'))
     const [division, setDivision] = useState('')
     const [regisValue, setRegisValue] = useState({email: '', password: '', fullname: '', nim: '', ktm: '', cv: '', coverLetter: '', linkedin: ''})
-    const {email, password, fullname, nim, ktm, cv, coverLetter, linkedin} = regisValue
+    const {email, password, fullName, nim, photo_KTM_url, cv_url, cover_letter_url, linkedIn_url} = regisValue
 
     const handleRegisChange = e => {
         setRegisValue(preValue => {
@@ -40,7 +42,7 @@ const Register = () => {
         e.preventDefault()
 
         try {
-            const { data } = await User.post(regisValue);
+            const { data } = await User.post({ ...regisValue, division });
 
             toast.success(`Successfully Registered`);
             navigate('/login');
@@ -50,6 +52,11 @@ const Register = () => {
         }
     }
 
+    useEffect(() => {
+        if (user) {
+            navigate('/status');
+        }
+    }, []);
 
     return (
         <div className="register">
@@ -83,7 +90,7 @@ const Register = () => {
                             <div className="register__icon">
                                 <img src={frame} alt="" />
                             </div>
-                            <input className='register__input' type="fullname" name="fullname" value={fullname} onChange={handleRegisChange} placeholder="Enter your fullname.." required />
+                            <input className='register__input' type="fullname" name="fullname" value={fullName} onChange={handleRegisChange} placeholder="Enter your fullname.." required />
                         </div>
                     </div>
                     <div className="input__group">
@@ -119,7 +126,7 @@ const Register = () => {
                             <div className="register__icon">
                                 <img src={gallery} alt="" />
                             </div>
-                            <input className='register__input' type="text" name="ktm" value={ktm} onChange={handleRegisChange} placeholder="Attach google drive link" required />
+                            <input className='register__input' type="text" name="ktm" value={photo_KTM_url} onChange={handleRegisChange} placeholder="Attach google drive link" required />
                             <img src={link} alt="" />
                         </div>
                     </div>
@@ -129,7 +136,7 @@ const Register = () => {
                             <div className="register__icon">
                                 <img src={note} alt="" />
                             </div>
-                            <input className='register__input' type="text" name="cv" value={cv} onChange={handleRegisChange} placeholder="Attach google drive link" required />
+                            <input className='register__input' type="text" name="cv" value={cv_url} onChange={handleRegisChange} placeholder="Attach google drive link" required />
                             <img src={link} alt="" />
                         </div>
                     </div>
@@ -139,7 +146,7 @@ const Register = () => {
                             <div className="register__icon">
                                 <img src={documentText} alt="" />
                             </div>
-                            <input className='register__input' type="text" name="coverLetter" value={coverLetter} onChange={handleRegisChange} placeholder="Attach google drive link" required />
+                            <input className='register__input' type="text" name="coverLetter" value={cover_letter_url} onChange={handleRegisChange} placeholder="Attach google drive link" required />
                             <img src={link} alt="" />
                         </div>
                     </div>
@@ -149,7 +156,7 @@ const Register = () => {
                             <div className="register__icon">
                                 <img src={linkedinIcon} alt="" />
                             </div>
-                            <input className='register__input' type="text" name="linkedin" value={linkedin} onChange={handleRegisChange} placeholder="Attach google drive link" required />
+                            <input className='register__input' type="text" name="linkedin" value={linkedIn_url} onChange={handleRegisChange} placeholder="Attach google drive link" required />
                             <img src={link} alt="" />
                         </div>
                     </div>
