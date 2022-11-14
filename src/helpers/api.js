@@ -1,11 +1,10 @@
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
 const BASE_URL = 'https://apiteknofest.proclub.tech';
 
 const instance = axios.create({
-    baseURL: BASE_URL
+    baseURL: BASE_URL,
+    withCredentials: true
 });
 
 instance.interceptors.request.use(
