@@ -27,7 +27,7 @@ const Mistake = () => {
                     <p className="mistake__desc">Let's not be discouraged.</p>
                     <p className="mistake__desc" >Apparently, there are some issue with your sumission:</p>
                     <p className="mistake__desc mistake__desc-box">
-                        { user.status.message }
+                        { user && user.status.message }
                     </p>
                     <p className="mistake__desc">But, No hope is lost yet, <br /> Be brave and overcame your mistake...</p>
                     <a href="/resubmit" className="mistake__btn">Fix Your Submission</a>

@@ -7,7 +7,7 @@ $color-font-secondary: #A5A5A5;
 $color-bg-component: #2F3137;
 
 //BREAKPOINT
-$bp-mobile: 28em; //425px
+$bp-mobile: 895px; //425px
 
 html {
     box-sizing: border-box;
@@ -40,18 +40,18 @@ body {
   }
 
 .App {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: min-content 1fr;
-    grid-gap: 5rem;
-    padding: 3rem 5rem;
+    // display: grid;
+    // grid-template-columns: 1fr;
+    // grid-template-rows: min-content 1fr;
+    // grid-gap: 5rem;
+    // padding: 3rem 5rem;
     min-height: 100vh;
     background-image: url('../bg.png');
     background-size: cover;
 
-    @media only screen and (max-width: $bp-mobile) {
-        padding: 5rem 4rem;
-    }
+    // @media only screen and (max-width: $bp-mobile) {
+    //     padding: 5rem 4rem;
+    // }
 }
 
 .border-wrap {
