@@ -48,7 +48,7 @@ const Register = () => {
         e.preventDefault()
 
         try {
-            const { data } = await User.post({ ...regisValue, division });
+            const { data } = await User.post({ ...regisValue, division, portfolio_url: submissionLine === 'ri' ? portfolio_url : undefined });
 
             toast.success(`Successfully Registered`);
             navigate('/login');
