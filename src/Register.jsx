@@ -16,14 +16,16 @@ import link from './asset/link.svg';
 import note from './asset/note.svg';
 import Select from 'react-select';
 import dataDivison from "./division";
+import dataSubmissionLine from "./submission-line";
 import CookiesHelper from "./helpers/cookies-helper";
 
 const Register = () => {
     const navigate = useNavigate()
     const user = CookiesHelper.get('user') && JSON.parse(CookiesHelper.get('user'))
     const [division, setDivision] = useState('')
-    const [regisValue, setRegisValue] = useState({email: '', password: '', fullname: '', nim: '', ktm: '', cv: '', coverLetter: '', linkedin: ''})
-    const {email, password, fullName, nim, photo_KTM_url, cv_url, cover_letter_url, linkedIn_url} = regisValue
+    const [submissionLine, setSubmissionLine] = useState('')
+    const [regisValue, setRegisValue] = useState({email: '', password: '', fullName: '', nim: '', photo_KTM_url: '', cv_url: '', cover_letter_url: '', linkedIn_url: '', portfolio_url: ''})
+    const {email, password, fullName, nim, photo_KTM_url, cv_url, cover_letter_url, linkedIn_url, portfolio_url} = regisValue
 
     const handleRegisChange = e => {
         setRegisValue(preValue => {
@@ -38,11 +40,15 @@ const Register = () => {
         setDivision(selectedState.value)
     }
 
+    const handleSubmissionLine = (selectedState, action) => {
+        setSubmissionLine(selectedState.value)
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
 
         try {
-            const { data } = await User.post({ ...regisValue, division });
+            const { data } = await User.post({ ...regisValue, division, path: submissionLine, portfolio_url });
 
             toast.success(`Successfully Registered`);
             navigate('/login');
@@ -90,7 +96,7 @@ const Register = () => {
                             <div className="register__icon">
                                 <img src={frame} alt="" />
                             </div>
-                            <input className='register__input' type="fullname" name="fullname" value={fullName} onChange={handleRegisChange} placeholder="Enter your fullname.." required />
+                            <input className='register__input' type="text" name="fullName" value={fullName} onChange={handleRegisChange} placeholder="Enter your fullname.." required />
                         </div>
                     </div>
                     <div className="input__group">
@@ -114,6 +120,23 @@ const Register = () => {
                                 className={'select-input'}
                                 placeholder='Select your division..'
                                 name='division'
+                                required
+                            />
+                        </div>
+                    </div>
+                    <div className="input__group">
+                        <label htmlFor="">Select Submission Line</label>
+                        <div className="register__input-container">
+                            <div className="register__icon">
+                                <img src={note} alt="" />
+                            </div>
+                            <Select
+                                onChange={handleSubmissionLine}
+                                options={dataSubmissionLine}
+                                className={'select-input'}
+                                placeholder='Select your submission line..'
+                                name='submissionLine'
+                                required
                             />
                         </div>
                     </div>
@@ -126,7 +149,7 @@ const Register = () => {
                             <div className="register__icon">
                                 <img src={gallery} alt="" />
                             </div>
-                            <input className='register__input' type="text" name="ktm" value={photo_KTM_url} onChange={handleRegisChange} placeholder="Attach google drive link" required />
+                            <input className='register__input' type="text" name="photo_KTM_url" value={photo_KTM_url} onChange={handleRegisChange} placeholder="Attach google drive link" required />
                             <img src={link} alt="" />
                         </div>
                     </div>
@@ -136,7 +159,7 @@ const Register = () => {
                             <div className="register__icon">
                                 <img src={note} alt="" />
                             </div>
-                            <input className='register__input' type="text" name="cv" value={cv_url} onChange={handleRegisChange} placeholder="Attach google drive link" required />
+                            <input className='register__input' type="text" name="cv_url" value={cv_url} onChange={handleRegisChange} placeholder="Attach google drive link" required />
                             <img src={link} alt="" />
                         </div>
                     </div>
@@ -146,7 +169,7 @@ const Register = () => {
                             <div className="register__icon">
                                 <img src={documentText} alt="" />
                             </div>
-                            <input className='register__input' type="text" name="coverLetter" value={cover_letter_url} onChange={handleRegisChange} placeholder="Attach google drive link" required />
+                            <input className='register__input' type="text" name="cover_letter_url" value={cover_letter_url} onChange={handleRegisChange} placeholder="Attach google drive link" required />
                             <img src={link} alt="" />
                         </div>
                     </div>
@@ -156,7 +179,24 @@ const Register = () => {
                             <div className="register__icon">
                                 <img src={linkedinIcon} alt="" />
                             </div>
-                            <input className='register__input' type="text" name="linkedin" value={linkedIn_url} onChange={handleRegisChange} placeholder="Attach google drive link" required />
+                            <input className='register__input' type="text" name="linkedIn_url" value={linkedIn_url} onChange={handleRegisChange} placeholder="Attach google drive link" required />
+                            <img src={link} alt="" />
+                        </div>
+                    </div>
+                    <div className="input__group">
+                        <label htmlFor="">Portfolio ({submissionLine === 'ri' ? 'Required' : 'Optional'})</label>
+                        <div className="register__input-container register__input-container--link">
+                            <div className="register__icon">
+                                <img src={documentText} alt="" />
+                            </div>
+                            <input
+                                className='register__input'
+                                type="text" name="portfolio_url"
+                                value={portfolio_url}
+                                placeholder="Attach google drive link"
+                                required={submissionLine === 'ri'}
+                                onChange={handleRegisChange}
+                            />
                             <img src={link} alt="" />
                         </div>
                     </div>

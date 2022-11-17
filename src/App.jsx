@@ -47,20 +47,23 @@ const App = () => {
         />
 
         <Navbar />
-        <Routes>
-          <Route path="/" element={<Navigate to='/register' />} exact />
-          <Route path="register" element={<Register />} />
-          <Route path="login" element={<Login />} />
-          <Route path="resubmit" element={<Resubmit />} />
-          <Route path="reset-password/:resetUrl" element={<ResetPass />} />
-          <Route path="forgot-password" element={<ForgotPass />} />
-          <Route path="status" >
-            <Route index element={<StatusCheck />} />
-            <Route path="onprogress" element={<OnProgress />} />
-            <Route path="acc" element={<Approved />} />
-            <Route path="mistakes" element={<Mistake />} />
-          </Route>
-        </Routes>
+
+        <div className="content">
+          <Routes>
+            <Route path="/" element={<Navigate to='/register' />} exact />
+            <Route path="register" element={<Register />} />
+            <Route path="login" element={<Login />} />
+            <Route path="resubmit" element={<Resubmit />} />
+            <Route path="reset-password/:resetUrl" element={<ResetPass />} />
+            <Route path="forgot-password" element={<ForgotPass />} />
+            <Route path="status" >
+              <Route index element={<StatusCheck />} />
+              <Route path="onprogress" element={<OnProgress />} />
+              <Route path="acc" element={<Approved />} />
+              <Route path="mistakes" element={<Mistake />} />
+            </Route>
+          </Routes>
+        </div>
       </div>
     </Router>
   )
