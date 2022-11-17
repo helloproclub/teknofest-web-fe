@@ -48,7 +48,7 @@ const Register = () => {
         e.preventDefault()
 
         try {
-            const { data } = await User.post({ ...regisValue, division, portfolio_url: submissionLine === 'ri' ? portfolio_url : undefined });
+            const { data } = await User.post({ ...regisValue, division, path: submissionLine, portfolio_url });
 
             toast.success(`Successfully Registered`);
             navigate('/login');
@@ -183,21 +183,23 @@ const Register = () => {
                             <img src={link} alt="" />
                         </div>
                     </div>
-                    {
-                        submissionLine && submissionLine === 'ri'
-                            ?
-                                <div className="input__group">
-                                    <label htmlFor="">Portfolio</label>
-                                    <div className="register__input-container register__input-container--link">
-                                        <div className="register__icon">
-                                            <img src={documentText} alt="" />
-                                        </div>
-                                        <input className='register__input' type="text" name="portfolio_url" value={portfolio_url} onChange={handleRegisChange} placeholder="Attach google drive link" required />
-                                        <img src={link} alt="" />
-                                    </div>
-                                </div>
-                            : null
-                    }
+                    <div className="input__group">
+                        <label htmlFor="">Portfolio ({submissionLine === 'ri' ? 'Required' : 'Optional'})</label>
+                        <div className="register__input-container register__input-container--link">
+                            <div className="register__icon">
+                                <img src={documentText} alt="" />
+                            </div>
+                            <input
+                                className='register__input'
+                                type="text" name="portfolio_url"
+                                value={portfolio_url}
+                                placeholder="Attach google drive link"
+                                required={submissionLine === 'ri'}
+                                onChange={handleRegisChange}
+                            />
+                            <img src={link} alt="" />
+                        </div>
+                    </div>
                     <button type="submit" className="register__btn">Register Account</button>
                     <p className="register__redirect">
                         Already have an account? <a href="/login">Login</a> here

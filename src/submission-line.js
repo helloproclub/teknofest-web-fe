@@ -1,4 +1,4 @@
-let dataSubmissionLine = ['Regular', 'RI']
+let dataSubmissionLine = ['SHU', 'RI']
 
 dataSubmissionLine = dataSubmissionLine.map(item => {
     return {
