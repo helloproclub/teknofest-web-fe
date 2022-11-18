@@ -14,20 +14,19 @@ import Resubmit from "./Resubmit";
 import Loader from "./Loader";
 import ResetPass from "./ResetPass";
 import ForgotPass from "./ForgotPass";
+import { useEffect } from "react";
 
 const App = () => {
   const [isLoad, setLoad] = useState(true)
-  
-  document.addEventListener('readystatechange', () => {
+
+  useEffect(() => {
     document.body.classList.add('fixBody')
 
-    if(document.readyState === 'complete') {
       setTimeout(() => {
         setLoad(false)
         document.body.classList.remove('fixBody')
       }, 800)
-    }
-  }) 
+  }, [])
 
   return (
     <Router>
