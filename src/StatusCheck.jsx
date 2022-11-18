@@ -45,7 +45,32 @@ const StatusCheck = () => {
 
     useEffect(() => {
         if (!isLoad) return;
-        getUser();
+        if (!CookiesHelper.get('user')) {
+            CookiesHelper.set('user', JSON.stringify({
+                _id: "6364402c82d49303cb9ed3c7",
+                fullName: "hidayattaufiqur",
+                email: "htaufiqurrahma2001@gmail.com",
+                nim: "1301204304213",
+                division: "0",
+                path: "0",
+                photo_KTM_url: "drive.google.com",
+                cv_url: "drive.google.com",
+                cover_letter_url: "drive.google.com",
+                linkedIn_url: "https://linkedin.com/",
+                portfolio_url: "drive.google.com",
+                createdAt: "2022-11-03T22:26:52.802Z",
+                updatedAt: "2022-11-07T05:28:47.080Z",
+                status: {
+                    _id: "6364402d82d49303cb9ed3c9",
+                    user_id: "6364402c82d49303cb9ed3c7",
+                    status: 1,
+                    message: "kasihan 🙁\n",
+                    discord_inv_url: "discord.com",
+                    __v: 0
+                }
+            }));
+        }
+        // getUser();
     }, []);
 
     useEffect(() => {
