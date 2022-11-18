@@ -9,6 +9,7 @@ import link from './asset/link.svg';
 import note from './asset/note.svg';
 import Select from 'react-select';
 import dataDivison from "./division";
+import dataSubmissionLine from "./submission-line";
 import { act } from "react-dom/test-utils";
 import CookiesHelper from "./helpers/cookies-helper";
 import { useNavigate } from "react-router-dom";
@@ -19,9 +20,10 @@ const Resubmit = () => {
     const navigate = useNavigate()
     const user = CookiesHelper.get('user') && JSON.parse(CookiesHelper.get('user'))
     const [division, setDivision] = useState('')
+    const [submissionLine, setSubmissionLine] = useState('')
     // let defaultDivision = {label: '', value: ''} to store the default value division from fetching API user
-    const [resubmitValue, setResubmitValue] = useState({fullName: '', nim: '', photo_KTM_url: '', cv_url: '', cover_letter_url: '', linkedIn_url: ''})
-    const {fullName, nim, photo_KTM_url, cv_url, cover_letter_url, linkedIn_url} = resubmitValue
+    const [resubmitValue, setResubmitValue] = useState({email: '', password: '', fullName: '', nim: '', photo_KTM_url: '', cv_url: '', cover_letter_url: '', linkedIn_url: '', portfolio_url: ''})
+    const {fullName, nim, photo_KTM_url, cv_url, cover_letter_url, linkedIn_url, portfolio_url} = resubmitValue
 
     // dataDivison.forEach(item => {
     //     if(item.value === division) {
@@ -42,7 +44,7 @@ const Resubmit = () => {
         e.preventDefault()
 
         try {
-            const { data } = await User.put({ ...resubmitValue, division });
+            const { data } = await User.put({ ...resubmitValue, division, path: submissionLine, portfolio_url });
 
             toast.success(`Successfully resubmit`);
             navigate('/status');
@@ -53,6 +55,10 @@ const Resubmit = () => {
 
     const handleDivision = (selectedState, action) => {
         setDivision(selectedState.value)
+    }
+
+    const handleSubmissionLine = (selectedState, action) => {
+        setSubmissionLine(selectedState.value)
     }
 
     useEffect(() => {
@@ -67,9 +73,11 @@ const Resubmit = () => {
                     photo_KTM_url: user.photo_KTM_url,
                     cover_letter_url: user.cover_letter_url,
                     cv_url: user.cv_url,
-                    linkedIn_url: user.linkedIn_url
+                    linkedIn_url: user.linkedIn_url,
+                    portfolio_url: user.portfolio_url,
                 });
                 setDivision(user.division);
+                setSubmissionLine(user.path);
             }
         } else {
             toast.error('Unauthorized, please login');
@@ -119,6 +127,22 @@ const Resubmit = () => {
                             />
                         </div>
                     </div>
+                    <div className="input__group">
+                        <label htmlFor="">Select Submission Line</label>
+                        <div className="resubmit__input-container">
+                            <div className="resubmit__icon">
+                                <img src={note} alt="" />
+                            </div>
+                            <Select
+                                onChange={handleSubmissionLine}
+                                options={dataSubmissionLine}
+                                className={'select-input'}
+                                placeholder='Select your submission line..'
+                                name='submissionLine'
+                                required
+                            />
+                        </div>
+                    </div>
                 </div>
 
                 <div className="right">
@@ -159,6 +183,23 @@ const Resubmit = () => {
                                 <img src={linkedinIcon} alt="" />
                             </div>
                             <input className='resubmit__input' type="text" name="linkedin" value={linkedIn_url} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
+                            <img src={link} alt="" />
+                        </div>
+                    </div>
+                    <div className="input__group">
+                        <label htmlFor="">Portfolio ({submissionLine === 'ri' ? 'Required' : 'Optional'})</label>
+                        <div className="resubmit__input-container resubmit__input-container--link">
+                            <div className="resubmit__icon">
+                                <img src={documentText} alt="" />
+                            </div>
+                            <input
+                                className='resubmit__input'
+                                type="text" name="portfolio_url"
+                                value={portfolio_url}
+                                placeholder="Attach google drive link"
+                                required={submissionLine === 'ri'}
+                                onChange={handleResubmitChange}
+                            />
                             <img src={link} alt="" />
                         </div>
                     </div>
