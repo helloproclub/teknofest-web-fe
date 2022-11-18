@@ -179,7 +179,7 @@ const Register = () => {
                             <div className="register__icon">
                                 <img src={linkedinIcon} alt="" />
                             </div>
-                            <input className='register__input' type="text" name="linkedIn_url" value={linkedIn_url} onChange={handleRegisChange} placeholder="Attach google drive link" required />
+                            <input className='register__input' type="text" name="linkedIn_url" value={linkedIn_url} onChange={handleRegisChange} placeholder="Attach linkedIn link" required />
                             <img src={link} alt="" />
                         </div>
                     </div>
