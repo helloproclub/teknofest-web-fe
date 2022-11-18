@@ -1,4 +1,4 @@
-let dataDivison = ['Software Engineer', 'Product Design', 'Business Analyst']
+let dataDivison = ['Software Engineer', 'Product Designer', 'Business Analyst']
 
 dataDivison = dataDivison.map(item => {
     return {
