@@ -3,10 +3,15 @@ import mail from './asset/sms.svg';
 import { useState } from "react";
 import Auth from "./services/api/auth";
 import { toast } from "react-toastify";
+import { emailSchema } from './schema';
+import { restructureYupValidationState } from "./helpers/yup-helper";
 
 const ForgotPass = () => {
     const [forgotValue, setForgotValue] = useState({email: ''})
+    const [formError, setFormError] = useState({ is_error: false, errors: [] })
     const {email} = forgotValue
+
+    const schema = emailSchema;
 
     const handleForgotChange = e => {
         setForgotValue(preValue => {
@@ -21,11 +26,25 @@ const ForgotPass = () => {
         e.preventDefault()
 
         try {
-            const { data } = await Auth.forgotPassword({ email });
+            const payload = { email };
+            await schema.validate(payload, { abortEarly: false });
+
+            setFormError({ is_error: false, errors: [] });
+            const { data } = await Auth.forgotPassword(payload);
             
             toast.success(`We have sent your recovery link to your email, please check your email`);
         } catch (e) {
-            toast.error(`Error, ${e.response ? e.response.data && e.response.data.msg : "Something's not right"}`);
+            if (e.name === 'ValidationError') {
+                const errors = restructureYupValidationState(e);
+
+                setFormError({
+                    is_error: true,
+                    errors,
+                });
+                toast.error(`Validation error, please check your email carefully`);
+            } else {
+                toast.error(`Error, ${e.response ? e.response.data && e.response.data.msg : "Something's not right"}`);
+            }
         }
     }
 
@@ -43,8 +62,11 @@ const ForgotPass = () => {
                         <div className="forgot__icon">
                             <img src={mail} alt="" />
                         </div>
-                        <input className='forgot__input' onChange={handleForgotChange} type="email" id="email" name="email" value={email} placeholder="Enter your email.." required />
+                        <input className='forgot__input' onChange={handleForgotChange} type="email" id="email" name="email" value={email} placeholder="Enter your email.." />
                     </div>
+                    {!!formError.errors.length
+                        && !!formError.errors.find((error) => error.path === 'email')
+                            && formError.errors.find((error) => error.path === 'email').errors.map((error) => <div key={error} className="forgot__input-error">{error}</div>)}
                 </div>
                 <button type="submit" className="forgot__btn">Confirm</button>
             </form>

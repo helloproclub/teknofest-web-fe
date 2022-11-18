@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { useNavigate } from 'react-router-dom';
+import { registerSchema } from './schema'
 
 import { User } from "./services/api/user";
 import { toast } from "react-toastify";
@@ -18,14 +19,18 @@ import Select from 'react-select';
 import dataDivison from "./division";
 import dataSubmissionLine from "./submission-line";
 import CookiesHelper from "./helpers/cookies-helper";
+import { restructureYupValidationState } from "./helpers/yup-helper";
 
 const Register = () => {
     const navigate = useNavigate()
     const user = CookiesHelper.get('user') && JSON.parse(CookiesHelper.get('user'))
     const [division, setDivision] = useState('')
     const [submissionLine, setSubmissionLine] = useState('')
+    const [formError, setFormError] = useState({ is_error: false, errors: [] })
     const [regisValue, setRegisValue] = useState({email: '', password: '', fullName: '', nim: '', photo_KTM_url: '', cv_url: '', cover_letter_url: '', linkedIn_url: '', portfolio_url: ''})
     const {email, password, fullName, nim, photo_KTM_url, cv_url, cover_letter_url, linkedIn_url, portfolio_url} = regisValue
+
+    const schema = registerSchema;
 
     const handleRegisChange = e => {
         setRegisValue(preValue => {
@@ -48,13 +53,27 @@ const Register = () => {
         e.preventDefault()
 
         try {
-            const { data } = await User.post({ ...regisValue, division, path: submissionLine, portfolio_url });
+            const payload = { ...regisValue, division, path: submissionLine, portfolio_url };
+            await schema.validate(payload, { abortEarly: false });
+
+            setFormError({ is_error: false, errors: [] });
+            const { data } = await User.post(payload);
 
             toast.success(`Successfully Registered`);
             navigate('/login');
             toast.info(`Please use your credential to login`);
         } catch (e) {
-            toast.error(`Error, ${e.response ? e.response.data && e.response.data.msg : "Something's not right"}`);
+            if (e.name === 'ValidationError') {
+                const errors = restructureYupValidationState(e);
+
+                setFormError({
+                    is_error: true,
+                    errors,
+                });
+                toast.error(`Validation error, please check your form carefully`);
+            } else {
+                toast.error(`Error, ${e.response ? e.response.data && e.response.data.msg : "Something's not right"}`);
+            }
         }
     }
 
@@ -78,8 +97,11 @@ const Register = () => {
                             <div className="register__icon">
                                 <img src={mail} alt="" />
                             </div>
-                            <input className='register__input' type="email" name="email" value={email} onChange={handleRegisChange} placeholder="Enter your email.." required />
+                            <input className='register__input' type="email" name="email" value={email} onChange={handleRegisChange} placeholder="Enter your email.." />
                         </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'email')
+                                && formError.errors.find((error) => error.path === 'email').errors.map((error) => <div key={error} className="register__input-error">{error}</div>)}
                     </div>
                     <div className="input__group">
                         <label htmlFor="">Password</label>
@@ -87,8 +109,11 @@ const Register = () => {
                             <div className="register__icon">
                                 <img src={key} alt="" />
                             </div>
-                            <input className='register__input' type="password" name="password" value={password} onChange={handleRegisChange} placeholder="Enter your password.." required />
+                            <input className='register__input' type="password" name="password" value={password} onChange={handleRegisChange} placeholder="Enter your password.." />
                         </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'password')
+                                && formError.errors.find((error) => error.path === 'password').errors.map((error) => <div key={error} className="register__input-error">{error}</div>)}
                     </div>
                     <div className="input__group">
                         <label htmlFor="">Fullname</label>
@@ -96,8 +121,11 @@ const Register = () => {
                             <div className="register__icon">
                                 <img src={frame} alt="" />
                             </div>
-                            <input className='register__input' type="text" name="fullName" value={fullName} onChange={handleRegisChange} placeholder="Enter your fullname.." required />
+                            <input className='register__input' type="text" name="fullName" value={fullName} onChange={handleRegisChange} placeholder="Enter your fullname.." />
                         </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'fullName')
+                                && formError.errors.find((error) => error.path === 'fullName').errors.map((error) => <div key={error} className="register__input-error">{error}</div>)}
                     </div>
                     <div className="input__group">
                         <label htmlFor="">NIM</label>
@@ -105,8 +133,11 @@ const Register = () => {
                             <div className="register__icon">
                                 <img src={clipboard} alt="" />
                             </div>
-                            <input className='register__input' type="text" name="nim" value={nim} onChange={handleRegisChange} placeholder="Enter your nim.." required />
+                            <input className='register__input' type="text" name="nim" value={nim} onChange={handleRegisChange} placeholder="Enter your nim.." />
                         </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'nim')
+                                && formError.errors.find((error) => error.path === 'nim').errors.map((error) => <div key={error} className="register__input-error">{error}</div>)}
                     </div>
                     <div className="input__group">
                         <label htmlFor="">Select Division</label>
@@ -120,9 +151,12 @@ const Register = () => {
                                 className={'select-input'}
                                 placeholder='Select your division..'
                                 name='division'
-                                required
+                               
                             />
                         </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'division')
+                                && formError.errors.find((error) => error.path === 'division').errors.map((error) => <div key={error} className="register__input-error">{error}</div>)}
                     </div>
                     <div className="input__group">
                         <label htmlFor="">Select Submission Line</label>
@@ -136,9 +170,12 @@ const Register = () => {
                                 className={'select-input'}
                                 placeholder='Select your submission line..'
                                 name='submissionLine'
-                                required
+                               
                             />
                         </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'path')
+                                && formError.errors.find((error) => error.path === 'path').errors.map((error) => <div key={error} className="register__input-error">{error}</div>)}
                     </div>
                 </div>
 
@@ -149,9 +186,12 @@ const Register = () => {
                             <div className="register__icon">
                                 <img src={gallery} alt="" />
                             </div>
-                            <input className='register__input' type="text" name="photo_KTM_url" value={photo_KTM_url} onChange={handleRegisChange} placeholder="Attach google drive link" required />
+                            <input className='register__input' type="text" name="photo_KTM_url" value={photo_KTM_url} onChange={handleRegisChange} placeholder="Attach google drive link" />
                             <img src={link} alt="" />
                         </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'photo_KTM_url')
+                                && formError.errors.find((error) => error.path === 'photo_KTM_url').errors.map((error) => <div key={error} className="register__input-error">{error}</div>)}
                     </div>
                     <div className="input__group">
                         <label htmlFor="">CV / Resume</label>
@@ -159,9 +199,12 @@ const Register = () => {
                             <div className="register__icon">
                                 <img src={note} alt="" />
                             </div>
-                            <input className='register__input' type="text" name="cv_url" value={cv_url} onChange={handleRegisChange} placeholder="Attach google drive link" required />
+                            <input className='register__input' type="text" name="cv_url" value={cv_url} onChange={handleRegisChange} placeholder="Attach google drive link" />
                             <img src={link} alt="" />
                         </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'cv_url')
+                                && formError.errors.find((error) => error.path === 'cv_url').errors.map((error) => <div key={error} className="register__input-error">{error}</div>)}
                     </div>
                     <div className="input__group">
                         <label htmlFor="">Cover Letter</label>
@@ -169,9 +212,12 @@ const Register = () => {
                             <div className="register__icon">
                                 <img src={documentText} alt="" />
                             </div>
-                            <input className='register__input' type="text" name="cover_letter_url" value={cover_letter_url} onChange={handleRegisChange} placeholder="Attach google drive link" required />
+                            <input className='register__input' type="text" name="cover_letter_url" value={cover_letter_url} onChange={handleRegisChange} placeholder="Attach google drive link" />
                             <img src={link} alt="" />
                         </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'cover_letter_url')
+                                && formError.errors.find((error) => error.path === 'cover_letter_url').errors.map((error) => <div key={error} className="register__input-error">{error}</div>)}
                     </div>
                     <div className="input__group">
                         <label htmlFor="">Linkedin Link</label>
@@ -179,9 +225,12 @@ const Register = () => {
                             <div className="register__icon">
                                 <img src={linkedinIcon} alt="" />
                             </div>
-                            <input className='register__input' type="text" name="linkedIn_url" value={linkedIn_url} onChange={handleRegisChange} placeholder="Attach linkedIn link" required />
+                            <input className='register__input' type="text" name="linkedIn_url" value={linkedIn_url} onChange={handleRegisChange} placeholder="Attach linkedIn link" />
                             <img src={link} alt="" />
                         </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'linkedIn_url')
+                                && formError.errors.find((error) => error.path === 'linkedIn_url').errors.map((error) => <div key={error} className="register__input-error">{error}</div>)}
                     </div>
                     <div className="input__group">
                         <label htmlFor="">Portfolio ({submissionLine === 'ri' ? 'Required' : 'Optional'})</label>
@@ -199,6 +248,9 @@ const Register = () => {
                             />
                             <img src={link} alt="" />
                         </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'portfolio_url')
+                                && formError.errors.find((error) => error.path === 'portfolio_url').errors.map((error) => <div key={error} className="register__input-error">{error}</div>)}
                     </div>
                     <button type="submit" className="register__btn">Register Account</button>
                     <p className="register__redirect">

@@ -27,7 +27,7 @@ const Navbar = () => {
     return (
         <nav className={`navbar ${checkURL() && 'navbar__logout'}`}>
             <img src={logo} alt="" className="navbar__img" />
-            <a href="" className="navbar__download">
+            <a href="https://bit.ly/GuidebookOpenMind2022" className="navbar__download" target="_blank" rel="noreferrer" >
                 <img src={navIcon} alt="" className="navbar__icon" />
                 Download Guide Book
             </a>

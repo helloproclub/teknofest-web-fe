@@ -489,6 +489,11 @@ body {
   color: #fff;
   text-decoration: none;
 }
+.login__input-error {
+  color: #e74c3c;
+  font-size: 1.25rem;
+  font-style: italic;
+}
 
 .register {
   padding: 3rem 4rem 8rem;
@@ -502,6 +507,11 @@ body {
     grid-gap: 3rem;
   }
 }
+.register__input-error {
+  color: #e74c3c;
+  font-size: 1.25rem;
+  font-style: italic;
+}
 
 .resubmit__form {
   grid-template-columns: repeat(2, 1fr);
@@ -514,6 +524,11 @@ body {
 }
 .resubmit__btn {
   margin: 0;
+}
+.resubmit__input-error {
+  color: #e74c3c;
+  font-size: 1.25rem;
+  font-style: italic;
 }
 
 .reset {
@@ -545,6 +560,11 @@ body {
     font-size: 1.4rem;
   }
 }
+.reset__input-error {
+  color: #e74c3c;
+  font-size: 1.25rem;
+  font-style: italic;
+}
 
 .reset__alert.alerted {
   opacity: 1;
@@ -573,6 +593,11 @@ body {
   font-size: 2rem;
   color: #00FF19;
   text-align: center;
+}
+.forgot__input-error {
+  color: #e74c3c;
+  font-size: 1.25rem;
+  font-style: italic;
 }
 
 .progress {

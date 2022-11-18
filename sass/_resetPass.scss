@@ -27,6 +27,12 @@
             font-size: 1.4rem;
         }
     }
+
+    &__input-error {
+        color: #e74c3c;
+        font-size: 1.25rem;
+        font-style: italic;
+    }
 }
 
 .reset__alert.alerted {
