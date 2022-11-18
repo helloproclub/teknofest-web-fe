@@ -28,4 +28,10 @@
             text-decoration: none;
         }
     }
+
+    &__input-error {
+        color: #e74c3c;
+        font-size: 1.25rem;
+        font-style: italic;
+    }
 }

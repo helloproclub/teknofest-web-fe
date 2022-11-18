@@ -15,15 +15,20 @@ import CookiesHelper from "./helpers/cookies-helper";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import User from "./services/api/user";
+import { resubmitSchema } from "./schema";
+import { restructureYupValidationState } from "./helpers/yup-helper";
 
 const Resubmit = () => {
     const navigate = useNavigate()
     const user = CookiesHelper.get('user') && JSON.parse(CookiesHelper.get('user'))
     const [division, setDivision] = useState('')
     const [submissionLine, setSubmissionLine] = useState('')
+    const [formError, setFormError] = useState({ is_error: false, errors: [] })
     // let defaultDivision = {label: '', value: ''} to store the default value division from fetching API user
     const [resubmitValue, setResubmitValue] = useState({email: '', password: '', fullName: '', nim: '', photo_KTM_url: '', cv_url: '', cover_letter_url: '', linkedIn_url: '', portfolio_url: ''})
     const {fullName, nim, photo_KTM_url, cv_url, cover_letter_url, linkedIn_url, portfolio_url} = resubmitValue
+
+    const schema = resubmitSchema;
 
     // dataDivison.forEach(item => {
     //     if(item.value === division) {
@@ -44,12 +49,26 @@ const Resubmit = () => {
         e.preventDefault()
 
         try {
-            const { data } = await User.put({ ...resubmitValue, division, path: submissionLine, portfolio_url });
+            const payload = { ...resubmitValue, division, path: submissionLine, portfolio_url };
+            await schema.validate(payload, { abortEarly: false });
+
+            setFormError({ is_error: false, errors: [] });
+            const { data } = await User.put(payload);
 
             toast.success(`Successfully resubmit`);
             navigate('/status');
         } catch (e) {
-            toast.error(`Error, ${e.response ? e.response.data && e.response.data.msg : "Something's not right"}`);
+            if (e.name === 'ValidationError') {
+                const errors = restructureYupValidationState(e);
+
+                setFormError({
+                    is_error: true,
+                    errors,
+                });
+                toast.error(`Validation error, please check your form carefully`);
+            } else {
+                toast.error(`Error, ${e.response ? e.response.data && e.response.data.msg : "Something's not right"}`);
+            }
         }
     }
 
@@ -99,8 +118,11 @@ const Resubmit = () => {
                             <div className="resubmit__icon">
                                 <img src={frame} alt="" />
                             </div>
-                            <input className='resubmit__input' type="fullname" name="fullname" value={fullName} onChange={handleResubmitChange} placeholder="Enter your fullname.." required />
+                            <input className='resubmit__input' type="fullName" name="fullname" value={fullName} onChange={handleResubmitChange} placeholder="Enter your fullname.." required />
                         </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'fullName')
+                                && formError.errors.find((error) => error.path === 'fullName').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
                     </div>
                     <div className="input__group">
                         <label htmlFor="">NIM</label>
@@ -110,6 +132,9 @@ const Resubmit = () => {
                             </div>
                             <input className='resubmit__input' type="text" name="nim" value={nim} onChange={handleResubmitChange} placeholder="Enter your nim.." required />
                         </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'nim')
+                                && formError.errors.find((error) => error.path === 'nim').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
                     </div>
                     <div className="input__group">
                         <label htmlFor="">Select Division</label>
@@ -126,6 +151,9 @@ const Resubmit = () => {
                                 name='division'
                             />
                         </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'division')
+                                && formError.errors.find((error) => error.path === 'division').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
                     </div>
                     <div className="input__group">
                         <label htmlFor="">Select Submission Line</label>
@@ -142,6 +170,9 @@ const Resubmit = () => {
                                 required
                             />
                         </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'path')
+                                && formError.errors.find((error) => error.path === 'path').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
                     </div>
                 </div>
 
@@ -152,9 +183,12 @@ const Resubmit = () => {
                             <div className="resubmit__icon">
                                 <img src={gallery} alt="" />
                             </div>
-                            <input className='resubmit__input' type="text" name="ktm" value={photo_KTM_url} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
+                            <input className='resubmit__input' type="text" name="photo_KTM_url" value={photo_KTM_url} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
                             <img src={link} alt="" />
                         </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'photo_KTM_url')
+                                && formError.errors.find((error) => error.path === 'photo_KTM_url').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
                     </div>
                     <div className="input__group">
                         <label htmlFor="">CV / Resume</label>
@@ -162,9 +196,12 @@ const Resubmit = () => {
                             <div className="resubmit__icon">
                                 <img src={note} alt="" />
                             </div>
-                            <input className='resubmit__input' type="text" name="cv" value={cv_url} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
+                            <input className='resubmit__input' type="text" name="cv_url" value={cv_url} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
                             <img src={link} alt="" />
                         </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'cv_url')
+                                && formError.errors.find((error) => error.path === 'cv_url').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
                     </div>
                     <div className="input__group">
                         <label htmlFor="">Cover Letter</label>
@@ -172,9 +209,12 @@ const Resubmit = () => {
                             <div className="resubmit__icon">
                                 <img src={documentText} alt="" />
                             </div>
-                            <input className='resubmit__input' type="text" name="coverLetter" value={cover_letter_url} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
+                            <input className='resubmit__input' type="text" name="cover_letter_url" value={cover_letter_url} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
                             <img src={link} alt="" />
                         </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'cover_letter_url')
+                                && formError.errors.find((error) => error.path === 'cover_letter_url').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
                     </div>
                     <div className="input__group">
                         <label htmlFor="">Linkedin Link</label>
@@ -182,9 +222,12 @@ const Resubmit = () => {
                             <div className="resubmit__icon">
                                 <img src={linkedinIcon} alt="" />
                             </div>
-                            <input className='resubmit__input' type="text" name="linkedin" value={linkedIn_url} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
+                            <input className='resubmit__input' type="text" name="linkedIn_url" value={linkedIn_url} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
                             <img src={link} alt="" />
                         </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'linkedIn_url')
+                                && formError.errors.find((error) => error.path === 'linkedIn_url').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
                     </div>
                     <div className="input__group">
                         <label htmlFor="">Portfolio ({submissionLine === 'ri' ? 'Required' : 'Optional'})</label>
@@ -194,7 +237,8 @@ const Resubmit = () => {
                             </div>
                             <input
                                 className='resubmit__input'
-                                type="text" name="portfolio_url"
+                                type="text"
+                                name="portfolio_url"
                                 value={portfolio_url}
                                 placeholder="Attach google drive link"
                                 required={submissionLine === 'ri'}
@@ -202,6 +246,9 @@ const Resubmit = () => {
                             />
                             <img src={link} alt="" />
                         </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'portfolio_url')
+                                && formError.errors.find((error) => error.path === 'portfolio_url').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
                     </div>
                     <button type="submit" className="resubmit__btn">Resubmit Now</button>
                 </div>
