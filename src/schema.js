@@ -37,7 +37,7 @@ export const registerSchema = Yup.object().shape({
     fullName: Yup
         .string()
         .trim()
-        .matches(/^[a-z,A-Z,0-9,_,-]*$/, { message: 'Field cannot contain certain special characters', excludeEmptyString: true })
+        .matches(/^[a-z,A-Z,0-9,\s]*$/, { message: 'Field cannot contain certain special characters', excludeEmptyString: true })
         .required('Field cannot be empty'),
     nim: Yup
         .string()
@@ -95,7 +95,7 @@ export const resubmitSchema = Yup.object().shape({
     fullName: Yup
         .string()
         .trim()
-        .matches(/^[a-z,A-Z,0-9,_,-]*$/, { message: 'Field cannot contain certain special characters', excludeEmptyString: true })
+        .matches(/^[a-z,A-Z,0-9,\s]*$/, { message: 'Field cannot contain certain special characters', excludeEmptyString: true })
         .required('Field cannot be empty'),
     nim: Yup
         .string()
