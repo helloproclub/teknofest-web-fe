@@ -17,7 +17,6 @@ import { toast } from "react-toastify";
 import User from "./services/api/user";
 import { resubmitSchema } from "./schema";
 import { restructureYupValidationState } from "./helpers/yup-helper";
-import Main from './layouts/Main';
 
 const Resubmit = () => {
     const navigate = useNavigate()
@@ -106,7 +105,6 @@ const Resubmit = () => {
     }, []);
 
     return (
-        <Main>
             <div className="resubmit">
                 <div className="resubmit__title-box">
                     <h1 className="resubmit__title">Resubmit Document</h1>
@@ -256,7 +254,6 @@ const Resubmit = () => {
                     </div>
                 </form>
             </div>
-        </Main>
     )
 }
 
