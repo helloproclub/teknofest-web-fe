@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 export const isRegistClosed = () => {
-    let status:
+    let status;
     const now = moment();
     const closed = moment('2022-11-27 00:01');
     const reopen = moment('2022-11-27 09:00');
