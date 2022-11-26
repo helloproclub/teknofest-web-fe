@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { isRegistClosed, registEvent } from "./helpers/registration-close-helper";
+
 import Navbar from "./Navbar";
 import Register from "./Register";
 import Login from "./Login";
@@ -14,17 +16,19 @@ import Resubmit from "./Resubmit";
 import Loader from "./Loader";
 import ResetPass from "./ResetPass";
 import ForgotPass from "./ForgotPass";
+import RegistrationClosed from "./RegistrationClosed";
 
 const App = () => {
   const [isLoad, setLoad] = useState(true)
 
   useEffect(() => {
+    registEvent()
     document.body.classList.add('fixBody')
 
-      setTimeout(() => {
-        setLoad(false)
-        document.body.classList.remove('fixBody')
-      }, 800)
+    setTimeout(() => {
+      setLoad(false)
+      document.body.classList.remove('fixBody')
+    }, 800)
   }, [])
 
   return (
@@ -48,7 +52,7 @@ const App = () => {
 
         <div className="content">
           <Routes>
-            <Route path="/" element={<Navigate to='/register' />} exact />
+            <Route path="/" element={<Navigate to={ isRegistClosed() ? '/login' : '/register'} />} exact />
             <Route path="register" element={<Register />} />
             <Route path="login" element={<Login />} />
             <Route path="resubmit" element={<Resubmit />} />
@@ -60,6 +64,7 @@ const App = () => {
               <Route path="acc" element={<Approved />} />
               <Route path="mistakes" element={<Mistake />} />
             </Route>
+            <Route path="registration-closed" element={<RegistrationClosed />} />
           </Routes>
         </div>
       </div>
