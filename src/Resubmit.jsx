@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import User from "./services/api/user";
 import { resubmitSchema } from "./schema";
 import { restructureYupValidationState } from "./helpers/yup-helper";
+import { isResubmitClosed } from "./helpers/registration-close-helper";
 
 const Resubmit = () => {
     const navigate = useNavigate()
@@ -24,6 +25,7 @@ const Resubmit = () => {
     const [division, setDivision] = useState('')
     const [submissionLine, setSubmissionLine] = useState('')
     const [formError, setFormError] = useState({ is_error: false, errors: [] })
+    const [ resubmitClosed, setResubmitClosed ] = useState(isResubmitClosed());
     // let defaultDivision = {label: '', value: ''} to store the default value division from fetching API user
     const [resubmitValue, setResubmitValue] = useState({email: '', password: '', fullName: '', nim: '', photo_KTM_url: '', cv_url: '', cover_letter_url: '', linkedIn_url: '', portfolio_url: ''})
     const {fullName, nim, photo_KTM_url, cv_url, cover_letter_url, linkedIn_url, portfolio_url} = resubmitValue
@@ -82,7 +84,7 @@ const Resubmit = () => {
 
     useEffect(() => {
         if (user) {
-            if (user.status.status !== 1) {
+            if (user.status.status !== 1 || resubmitClosed) {
                 toast.error('Unauthorized');
                 navigate('/status');
             } else {
