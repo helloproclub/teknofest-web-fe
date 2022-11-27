@@ -2,19 +2,19 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import CookiesHelper from "./helpers/cookies-helper";
-import { isResubmitClosed } from "./helpers/registration-close-helper";
+import { isRegistAnounced, isResubmitClosed } from "./helpers/registration-close-helper";
 import Status from "./Status";
 
 const Mistake = () => {
     const navigate = useNavigate()
     const user = CookiesHelper.get('user') && JSON.parse(CookiesHelper.get('user'));
     const [ resubmitClosed, setResubmitClosed ] = useState(isResubmitClosed());
+    const [ anounced, setAnounced ] = useState(isRegistAnounced());
 
     useEffect(() => {
         if (user) {
-            if (user.status.status !== 1) {
-                navigate('/status');
-            }
+            if (!anounced) navigate('/status/onprogress')
+            else if (user.status.status !== 1) navigate('/status')
         } else {
             toast.error('Unauthorized, please login');
             navigate('/login');

@@ -1,19 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import discord from './asset/discord.svg';
 import CookiesHelper from "./helpers/cookies-helper";
+import { isRegistAnounced } from "./helpers/registration-close-helper";
 import Status from "./Status";
 
 const Approved = () => {
     const navigate = useNavigate()
     const user = CookiesHelper.get('user') && JSON.parse(CookiesHelper.get('user'));
+    const [ anounced, setAnounced ] = useState(isRegistAnounced());
 
     useEffect(() => {
         if (user) {
-            if (user.status.status !== 2) {
-                navigate('/status');
-            }
+            if (!anounced) navigate('/status/onprogress')
+            else if (user.status.status !== 2) navigate('/status')
         } else {
             toast.error('Unauthorized, please login');
             navigate('/login');
