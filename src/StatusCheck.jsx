@@ -6,11 +6,13 @@ import { User } from './services/api/user';
 import CookiesHelper from './helpers/cookies-helper';
 
 import Loader from './Loader';
+import { isRegistAnounced } from './helpers/registration-close-helper';
 
 const StatusCheck = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState(CookiesHelper.get('user') && JSON.parse(CookiesHelper.get('user')));
     const [isLoad, setIsLoad] = useState(true);
+    const [ anounced, setAnounced ] = useState(isRegistAnounced());
 
     const getUser = async () => {
         try {
@@ -30,16 +32,20 @@ const StatusCheck = () => {
     };
 
     const redirectBasedOnStatus = (user) => {
-        switch (user.status.status) {
-            case 1:
-                navigate('/status/mistakes');
-                break;
-            case 2:
-                navigate('/status/acc');
-                break;
-            default:
-                navigate('/status/onprogress');
-                break;
+        if (anounced) {
+            switch (user.status.status) {
+                case 1:
+                    navigate('/status/mistakes');
+                    break;
+                case 2:
+                    navigate('/status/acc');
+                    break;
+                default:
+                    navigate('/status/onprogress');
+                    break;
+            }
+        } else {
+            navigate('/status/onprogress');
         }
     };
 

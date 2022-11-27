@@ -20,10 +20,29 @@ export const isRegistClosed = () => {
     return status;
 }
 
+export const isRegistAnounced = () => {
+    const now = moment();
+    const anounced = moment('2022-12-01 00:01');
+
+    if (now > anounced) return true;
+    return false;
+}
+
+export const isResubmitClosed = () => {
+    const now = moment();
+    const resubmit = moment('2022-12-01 00:01');
+    const resubmitClosed = moment('2022-12-03 00:01');
+
+    if (now >= resubmit && now < resubmitClosed) return false;
+    return true;
+}
+
 export const registEvent = () => {
     const registClosedEvent = new CustomEvent('registClosed', {
         detail: {
-            isClosed: isRegistClosed()
+            isClosed: isRegistClosed(),
+            isAnounced: isRegistAnounced(),
+            isResubmitClosed: isResubmitClosed()
         }
     });
 
@@ -34,5 +53,8 @@ export const registEvent = () => {
 }
 
 export default {
-    isRegistClosed
+    isRegistClosed,
+    isRegistAnounced,
+    isResubmitClosed,
+    registEvent
 };

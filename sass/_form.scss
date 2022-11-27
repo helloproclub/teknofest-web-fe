@@ -104,6 +104,11 @@
                 transform: scale(.98);
             }
         }
+
+        &:disabled {
+            background-color: rgb(193, 193, 193);
+            background-color: #ddd;
+        }
     }
 
     &__redirect {

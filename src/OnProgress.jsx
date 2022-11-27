@@ -1,14 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import progressBar from './asset/progress.svg';
 import logoutIcon from './asset/logout.svg';
 import { toast } from "react-toastify";
 import CookiesHelper from "./helpers/cookies-helper";
 import { useNavigate } from "react-router-dom";
 import Auth from "./services/api/auth";
+import { isRegistAnounced } from "./helpers/registration-close-helper";
 
 const OnProgress = () => {
     const navigate = useNavigate()
     const user = CookiesHelper.get('user') && JSON.parse(CookiesHelper.get('user'));
+    const [ anounced, setAnounced ] = useState(isRegistAnounced());
 
     const logout = async () => {
         try {
@@ -23,7 +25,7 @@ const OnProgress = () => {
 
     useEffect(() => {
         if (user) {
-            if (user.status.status !== 0) {
+            if (user.status.status !== 0 && anounced) {
                 navigate('/status');
             }
         } else {

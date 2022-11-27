@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import CookiesHelper from "./helpers/cookies-helper";
+import { isResubmitClosed } from "./helpers/registration-close-helper";
 import Status from "./Status";
 
 const Mistake = () => {
     const navigate = useNavigate()
     const user = CookiesHelper.get('user') && JSON.parse(CookiesHelper.get('user'));
+    const [ resubmitClosed, setResubmitClosed ] = useState(isResubmitClosed());
 
     useEffect(() => {
         if (user) {
@@ -17,6 +19,10 @@ const Mistake = () => {
             toast.error('Unauthorized, please login');
             navigate('/login');
         }
+
+        document.addEventListener('registClosed', (e) => {
+            setResubmitClosed(isResubmitClosed());
+        });
     }, []);
     
     return (
@@ -25,12 +31,18 @@ const Mistake = () => {
                 <div className="mistake__container">
                     <h1 className="mistake__subtitle">Stage 1 : Overcome You Mistake</h1>
                     <p className="mistake__desc">Let's not be discouraged.</p>
-                    <p className="mistake__desc" >Apparently, there are some issue with your sumission:</p>
+                    <p className="mistake__desc" >Apparently, there are some issue with your submission:</p>
                     <p className="mistake__desc mistake__desc-box">
-                        { user && user.status.message }
+                        { !resubmitClosed ? user && user.status.message : 'You have passed the period of resubmit date' }
                     </p>
-                    <p className="mistake__desc">But, No hope is lost yet, <br /> Be brave and overcame your mistake...</p>
-                    <a href="/resubmit" className="mistake__btn">Fix Your Submission</a>
+                    {
+                        !resubmitClosed && (
+                            <>
+                                <p className="mistake__desc">But, No hope is lost yet, <br /> Be brave and overcame your mistake...</p>
+                                <a href="/resubmit" className="mistake__btn">Fix Your Submission</a>
+                            </>
+                        )
+                    }
                 </div>
             </div>
         </Status>

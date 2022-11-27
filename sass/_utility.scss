@@ -27,6 +27,11 @@
     &:active {
         transform: scale(.96);
     }
+
+    &:disabled {
+        background-color: rgb(193, 193, 193);
+        background-color: #ddd;
+    }
 }
 
 @mixin titleStroke {

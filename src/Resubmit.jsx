@@ -105,155 +105,155 @@ const Resubmit = () => {
     }, []);
 
     return (
-            <div className="resubmit">
-                <div className="resubmit__title-box">
-                    <h1 className="resubmit__title">Resubmit Document</h1>
-                    <p className="resubmit__title-stroke">Resubmit Document</p>
-                </div>
-                <form className="resubmit__form" onSubmit={handleSubmit}>
-                    <div className="left">
-                        <div className="input__group">
-                            <label htmlFor="">Fullname</label>
-                            <div className="resubmit__input-container">
-                                <div className="resubmit__icon">
-                                    <img src={frame} alt="" />
-                                </div>
-                                <input className='resubmit__input' type="fullName" name="fullname" value={fullName} onChange={handleResubmitChange} placeholder="Enter your fullname.." required />
-                            </div>
-                            {!!formError.errors.length
-                                && !!formError.errors.find((error) => error.path === 'fullName')
-                                    && formError.errors.find((error) => error.path === 'fullName').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
-                        </div>
-                        <div className="input__group">
-                            <label htmlFor="">NIM</label>
-                            <div className="resubmit__input-container">
-                                <div className="resubmit__icon">
-                                    <img src={clipboard} alt="" />
-                                </div>
-                                <input className='resubmit__input' type="text" name="nim" value={nim} onChange={handleResubmitChange} placeholder="Enter your nim.." required />
-                            </div>
-                            {!!formError.errors.length
-                                && !!formError.errors.find((error) => error.path === 'nim')
-                                    && formError.errors.find((error) => error.path === 'nim').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
-                        </div>
-                        <div className="input__group">
-                            <label htmlFor="">Select Division</label>
-                            <div className="resubmit__input-container">
-                                <div className="resubmit__icon">
-                                    <img src={briefcase} alt="" />
-                                </div>
-                                <Select
-                                    onChange={handleDivision}
-                                    options={dataDivison}
-                                    className={'select-input'}
-                                    placeholder='Select your division..'
-                                    // defaultValue={defaultDivision}
-                                    name='division'
-                                />
-                            </div>
-                            {!!formError.errors.length
-                                && !!formError.errors.find((error) => error.path === 'division')
-                                    && formError.errors.find((error) => error.path === 'division').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
-                        </div>
-                        <div className="input__group">
-                            <label htmlFor="">Select Submission Line</label>
-                            <div className="resubmit__input-container">
-                                <div className="resubmit__icon">
-                                    <img src={note} alt="" />
-                                </div>
-                                <Select
-                                    onChange={handleSubmissionLine}
-                                    options={dataSubmissionLine}
-                                    className={'select-input'}
-                                    placeholder='Select your submission line..'
-                                    name='submissionLine'
-                                    required
-                                />
-                            </div>
-                            {!!formError.errors.length
-                                && !!formError.errors.find((error) => error.path === 'path')
-                                    && formError.errors.find((error) => error.path === 'path').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
-                        </div>
-                    </div>
-
-                    <div className="right">
-                        <div className="input__group">
-                            <label htmlFor="">KTM Photo</label>
-                            <div className="resubmit__input-container resubmit__input-container--link">
-                                <div className="resubmit__icon">
-                                    <img src={gallery} alt="" />
-                                </div>
-                                <input className='resubmit__input' type="text" name="photo_KTM_url" value={photo_KTM_url} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
-                                <img src={link} alt="" />
-                            </div>
-                            {!!formError.errors.length
-                                && !!formError.errors.find((error) => error.path === 'photo_KTM_url')
-                                    && formError.errors.find((error) => error.path === 'photo_KTM_url').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
-                        </div>
-                        <div className="input__group">
-                            <label htmlFor="">CV / Resume</label>
-                            <div className="resubmit__input-container resubmit__input-container--link">
-                                <div className="resubmit__icon">
-                                    <img src={note} alt="" />
-                                </div>
-                                <input className='resubmit__input' type="text" name="cv_url" value={cv_url} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
-                                <img src={link} alt="" />
-                            </div>
-                            {!!formError.errors.length
-                                && !!formError.errors.find((error) => error.path === 'cv_url')
-                                    && formError.errors.find((error) => error.path === 'cv_url').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
-                        </div>
-                        <div className="input__group">
-                            <label htmlFor="">Cover Letter</label>
-                            <div className="resubmit__input-container resubmit__input-container--link">
-                                <div className="resubmit__icon">
-                                    <img src={documentText} alt="" />
-                                </div>
-                                <input className='resubmit__input' type="text" name="cover_letter_url" value={cover_letter_url} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
-                                <img src={link} alt="" />
-                            </div>
-                            {!!formError.errors.length
-                                && !!formError.errors.find((error) => error.path === 'cover_letter_url')
-                                    && formError.errors.find((error) => error.path === 'cover_letter_url').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
-                        </div>
-                        <div className="input__group">
-                            <label htmlFor="">Linkedin Link</label>
-                            <div className="resubmit__input-container resubmit__input-container--link">
-                                <div className="resubmit__icon">
-                                    <img src={linkedinIcon} alt="" />
-                                </div>
-                                <input className='resubmit__input' type="text" name="linkedIn_url" value={linkedIn_url} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
-                                <img src={link} alt="" />
-                            </div>
-                            {!!formError.errors.length
-                                && !!formError.errors.find((error) => error.path === 'linkedIn_url')
-                                    && formError.errors.find((error) => error.path === 'linkedIn_url').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
-                        </div>
-                        <div className="input__group">
-                            <label htmlFor="">Portfolio ({submissionLine === 'ri' ? 'Required' : 'Optional'})</label>
-                            <div className="resubmit__input-container resubmit__input-container--link">
-                                <div className="resubmit__icon">
-                                    <img src={documentText} alt="" />
-                                </div>
-                                <input
-                                    className='resubmit__input'
-                                    type="text"
-                                    name="portfolio_url"
-                                    value={portfolio_url}
-                                    placeholder="Attach google drive link"
-                                    required={submissionLine === 'ri'}
-                                    onChange={handleResubmitChange}
-                                />
-                                <img src={link} alt="" />
-                            </div>
-                            {!!formError.errors.length
-                                && !!formError.errors.find((error) => error.path === 'portfolio_url')
-                                    && formError.errors.find((error) => error.path === 'portfolio_url').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
-                        </div>
-                        <button type="submit" className="resubmit__btn">Resubmit Now</button>
-                    </div>
-                </form>
+        <div className="resubmit">
+            <div className="resubmit__title-box">
+                <h1 className="resubmit__title">Resubmit Document</h1>
+                <p className="resubmit__title-stroke">Resubmit Document</p>
             </div>
+            <form className="resubmit__form" onSubmit={handleSubmit}>
+                <div className="left">
+                    <div className="input__group">
+                        <label htmlFor="">Fullname</label>
+                        <div className="resubmit__input-container">
+                            <div className="resubmit__icon">
+                                <img src={frame} alt="" />
+                            </div>
+                            <input className='resubmit__input' type="fullName" name="fullname" value={fullName} onChange={handleResubmitChange} placeholder="Enter your fullname.." required />
+                        </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'fullName')
+                                && formError.errors.find((error) => error.path === 'fullName').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
+                    </div>
+                    <div className="input__group">
+                        <label htmlFor="">NIM</label>
+                        <div className="resubmit__input-container">
+                            <div className="resubmit__icon">
+                                <img src={clipboard} alt="" />
+                            </div>
+                            <input className='resubmit__input' type="text" name="nim" value={nim} onChange={handleResubmitChange} placeholder="Enter your nim.." required />
+                        </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'nim')
+                                && formError.errors.find((error) => error.path === 'nim').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
+                    </div>
+                    <div className="input__group">
+                        <label htmlFor="">Select Division</label>
+                        <div className="resubmit__input-container">
+                            <div className="resubmit__icon">
+                                <img src={briefcase} alt="" />
+                            </div>
+                            <Select
+                                onChange={handleDivision}
+                                options={dataDivison}
+                                className={'select-input'}
+                                placeholder='Select your division..'
+                                // defaultValue={defaultDivision}
+                                name='division'
+                            />
+                        </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'division')
+                                && formError.errors.find((error) => error.path === 'division').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
+                    </div>
+                    <div className="input__group">
+                        <label htmlFor="">Select Submission Line</label>
+                        <div className="resubmit__input-container">
+                            <div className="resubmit__icon">
+                                <img src={note} alt="" />
+                            </div>
+                            <Select
+                                onChange={handleSubmissionLine}
+                                options={dataSubmissionLine}
+                                className={'select-input'}
+                                placeholder='Select your submission line..'
+                                name='submissionLine'
+                                required
+                            />
+                        </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'path')
+                                && formError.errors.find((error) => error.path === 'path').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
+                    </div>
+                </div>
+
+                <div className="right">
+                    <div className="input__group">
+                        <label htmlFor="">KTM Photo</label>
+                        <div className="resubmit__input-container resubmit__input-container--link">
+                            <div className="resubmit__icon">
+                                <img src={gallery} alt="" />
+                            </div>
+                            <input className='resubmit__input' type="text" name="photo_KTM_url" value={photo_KTM_url} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
+                            <img src={link} alt="" />
+                        </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'photo_KTM_url')
+                                && formError.errors.find((error) => error.path === 'photo_KTM_url').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
+                    </div>
+                    <div className="input__group">
+                        <label htmlFor="">CV / Resume</label>
+                        <div className="resubmit__input-container resubmit__input-container--link">
+                            <div className="resubmit__icon">
+                                <img src={note} alt="" />
+                            </div>
+                            <input className='resubmit__input' type="text" name="cv_url" value={cv_url} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
+                            <img src={link} alt="" />
+                        </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'cv_url')
+                                && formError.errors.find((error) => error.path === 'cv_url').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
+                    </div>
+                    <div className="input__group">
+                        <label htmlFor="">Cover Letter</label>
+                        <div className="resubmit__input-container resubmit__input-container--link">
+                            <div className="resubmit__icon">
+                                <img src={documentText} alt="" />
+                            </div>
+                            <input className='resubmit__input' type="text" name="cover_letter_url" value={cover_letter_url} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
+                            <img src={link} alt="" />
+                        </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'cover_letter_url')
+                                && formError.errors.find((error) => error.path === 'cover_letter_url').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
+                    </div>
+                    <div className="input__group">
+                        <label htmlFor="">Linkedin Link</label>
+                        <div className="resubmit__input-container resubmit__input-container--link">
+                            <div className="resubmit__icon">
+                                <img src={linkedinIcon} alt="" />
+                            </div>
+                            <input className='resubmit__input' type="text" name="linkedIn_url" value={linkedIn_url} onChange={handleResubmitChange} placeholder="Attach google drive link" required />
+                            <img src={link} alt="" />
+                        </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'linkedIn_url')
+                                && formError.errors.find((error) => error.path === 'linkedIn_url').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
+                    </div>
+                    <div className="input__group">
+                        <label htmlFor="">Portfolio ({submissionLine === 'ri' ? 'Required' : 'Optional'})</label>
+                        <div className="resubmit__input-container resubmit__input-container--link">
+                            <div className="resubmit__icon">
+                                <img src={documentText} alt="" />
+                            </div>
+                            <input
+                                className='resubmit__input'
+                                type="text"
+                                name="portfolio_url"
+                                value={portfolio_url}
+                                placeholder="Attach google drive link"
+                                required={submissionLine === 'ri'}
+                                onChange={handleResubmitChange}
+                            />
+                            <img src={link} alt="" />
+                        </div>
+                        {!!formError.errors.length
+                            && !!formError.errors.find((error) => error.path === 'portfolio_url')
+                                && formError.errors.find((error) => error.path === 'portfolio_url').errors.map((error) => <div key={error} className="resubmit__input-error">{error}</div>)}
+                    </div>
+                    <button type="submit" className="resubmit__btn">Resubmit Now</button>
+                </div>
+            </form>
+        </div>
     )
 }
 
