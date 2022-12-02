@@ -31,7 +31,7 @@ export const isRegistAnounced = () => {
 export const isResubmitClosed = () => {
     const now = moment();
     const resubmit = moment('2022-12-01 00:01');
-    const resubmitClosed = moment('2022-12-03 00:01');
+    const resubmitClosed = moment('2022-12-02 11:00');
 
     if (now >= resubmit && now < resubmitClosed) return false;
     return true;
