@@ -22,7 +22,7 @@ export const isRegistClosed = () => {
 
 export const isRegistAnounced = () => {
     const now = moment();
-    const anounced = moment('2022-12-01 00:01');
+    const anounced = moment('2022-12-03 21:00');
 
     if (now > anounced) return true;
     return false;
