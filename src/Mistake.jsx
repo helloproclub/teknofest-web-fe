@@ -29,9 +29,13 @@ const Mistake = () => {
         <Status>
             <div className="mistake">
                 <div className="mistake__container">
-                    <h1 className="mistake__subtitle">Stage 1 : Overcome You Mistake</h1>
+                    <h1 className="mistake__subtitle">Stage 1 : You Still Have a Long Journey</h1>
                     <p className="mistake__desc">Let's not be discouraged.</p>
-                    <p className="mistake__desc" >Apparently, there are some issue with your submission:</p>
+                    <p className="mistake__desc" >
+                        Apparently, you did not pass the selection phase.
+                        <br>
+                        Thank you for showing interest in Proclub. We hope to see you next year.
+                    </p>
                     <p className="mistake__desc mistake__desc-box">
                         { user && user.status.message }
                     </p>
