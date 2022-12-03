@@ -33,7 +33,7 @@ const Mistake = () => {
                     <p className="mistake__desc">Let's not be discouraged.</p>
                     <p className="mistake__desc" >Apparently, there are some issue with your submission:</p>
                     <p className="mistake__desc mistake__desc-box">
-                        { !resubmitClosed ? user && user.status.message : 'You have passed the period of resubmit date' }
+                        { user && user.status.message }
                     </p>
                     {
                         !resubmitClosed && (
