@@ -33,7 +33,7 @@ const Mistake = () => {
                     <p className="mistake__desc">Let's not be discouraged.</p>
                     <p className="mistake__desc" >
                         Apparently, you did not pass the selection phase.
-                        <br>
+                        <br></br>
                         Thank you for showing interest in Proclub. We hope to see you next year.
                     </p>
                     <p className="mistake__desc mistake__desc-box">
